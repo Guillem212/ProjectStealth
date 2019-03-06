@@ -126,7 +126,7 @@ GameObject:
   - component: {fileID: 6631117477075016103}
   - component: {fileID: 3026825821200660035}
   - component: {fileID: 4213527166354218220}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: attachableCameraObject
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -223,8 +223,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   layer:
     serializedVersion: 2
-    m_Bits: 512
-  virtualCamera: {fileID: 3832210003641257328}
+    m_Bits: 0
 --- !u!136 &4213527166354218220
 CapsuleCollider:
   m_ObjectHideFlags: 0

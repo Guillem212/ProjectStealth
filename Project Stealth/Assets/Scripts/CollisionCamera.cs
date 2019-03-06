@@ -3,10 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
 
-public class colliderCamera : MonoBehaviour
+public class CollisionCamera : MonoBehaviour
 {
-    public LayerMask layer;
-
     private Rigidbody rb_Camera;
 
     //Punto en el que impacta la camara.
@@ -28,29 +26,29 @@ public class colliderCamera : MonoBehaviour
             rb_Camera.useGravity = false;
 
             //Hace que no puedas lanzar mas de una camara.
-            throwCamera.cameraFixed = true;
+            AttachCameraBehaviour.cameraFixed = true;
 
             //Saca la normal de el punto de colision.
             calculeAngle(collision.GetContact(collision.contactCount - 1).normal);
         }
-        else // Mas adelante implementar animación de destruir camara.
+        else
+        { // Mas adelante implementar animación de destruir camara.
             Destroy(gameObject);
+            AttachCameraBehaviour.cameraThrowed = false;
+        }
     }
 
     void calculeAngle(Vector3 contactPoint)
     {
         //calcula el angulo inicial de la camara.
-        transform.rotation = Quaternion.FromToRotation(Vector3.forward, contactPoint) * transform.rotation;
+        transform.rotation = Quaternion.FromToRotation(Vector3.forward, contactPoint);
 
         initialCameraRotation = transform.localEulerAngles.y;
 
+        print("Minimo: " + min + " Maximo: " + max + " Actual: " + initialCameraRotation);
         //Calcula los limites de la camara.
         min = initialCameraRotation - 80f; if (min < 0) min += 360;
         max = initialCameraRotation + 80f; if (max > 360) max -= 360;
-
-        //Si la camara va a salir del reves, la pone del derecho.
-        if (contactPoint.z < 0)
-            transform.Rotate(0, 0, 180);
 
 
     }

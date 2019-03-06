@@ -20,9 +20,9 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        if (!GrappingHook.hooked)
+        if (!GrappingHook.hooked || !AttachCameraBehaviour.getLookingCamera())
         {
-            if (controller.isGrounded && !throwCamera.getLookingCamera())
+            if (controller.isGrounded)
             {
                 moveDirection = new Vector3(Input.GetAxis("Horizontal"), 0.0f, Input.GetAxis("Vertical"));
                 moveDirection = Camera.main.transform.TransformDirection(moveDirection);
