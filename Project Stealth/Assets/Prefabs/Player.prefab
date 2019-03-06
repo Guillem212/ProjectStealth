@@ -277,6 +277,7 @@ GameObject:
   - component: {fileID: 6420975131751907531}
   - component: {fileID: 6420975131751907528}
   - component: {fileID: 6420975131751907542}
+  - component: {fileID: 949147321236767293}
   - component: {fileID: 6420975131751907529}
   m_Layer: 0
   m_Name: Player
@@ -347,6 +348,25 @@ MonoBehaviour:
   speed: 6
   jumpSpeed: 8
   gravity: 20
+--- !u!114 &949147321236767293
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6420975131751907533}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c4ab82ae7646d346a3aec5969733a44, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hookPref: {fileID: 0}
+  hookHolder: {fileID: 0}
+  hookedObject: {fileID: 0}
+  hookTravelSpeed: 0
+  playerTravelSpeed: 0
+  hooked: 0
+  maxDistance: 0
 --- !u!114 &6420975131751907529
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -361,6 +381,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attachableCamera: {fileID: 3832210003929485269, guid: 60b54c658a6c86449a30cd031bfc5447,
     type: 3}
+  cameraPlayer: {fileID: 0}
   layerMask:
     serializedVersion: 2
     m_Bits: 512
+  throwForce: 0

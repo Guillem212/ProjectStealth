@@ -20,21 +20,24 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        if (controller.isGrounded && !throwCamera.getLookingCamera())
+        if (!GrappingHook.hooked)
         {
-            moveDirection = new Vector3(Input.GetAxis("Horizontal"), 0.0f, Input.GetAxis("Vertical"));
-            moveDirection = Camera.main.transform.TransformDirection(moveDirection);
-            moveDirection = moveDirection * speed;
-            moveDirection.y = 0f;
-
-            if (Input.GetButtonDown("Jump"))
+            if (controller.isGrounded && !throwCamera.getLookingCamera())
             {
-                moveDirection.y = jumpSpeed;
+                moveDirection = new Vector3(Input.GetAxis("Horizontal"), 0.0f, Input.GetAxis("Vertical"));
+                moveDirection = Camera.main.transform.TransformDirection(moveDirection);
+                moveDirection = moveDirection * speed;
+                moveDirection.y = 0f;
+
+                if (Input.GetButtonDown("Jump"))
+                {
+                    moveDirection.y = jumpSpeed;
+                }
             }
-        }
 
-        moveDirection.y = moveDirection.y - (gravity * Time.deltaTime);
+            moveDirection.y = moveDirection.y - (gravity * Time.deltaTime);
 
-        controller.Move(moveDirection * Time.deltaTime);
+            controller.Move(moveDirection * Time.deltaTime);
+        }        
     }
 }
