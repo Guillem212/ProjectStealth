@@ -20,11 +20,12 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        if (controller.isGrounded)
+        if (controller.isGrounded && !throwCamera.getLookingCamera())
         {
             moveDirection = new Vector3(Input.GetAxis("Horizontal"), 0.0f, Input.GetAxis("Vertical"));
             moveDirection = Camera.main.transform.TransformDirection(moveDirection);
             moveDirection = moveDirection * speed;
+            moveDirection.y = 0f;
 
             if (Input.GetButtonDown("Jump"))
             {

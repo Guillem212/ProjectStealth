@@ -11,7 +11,6 @@ public class colliderCamera : MonoBehaviour
 
     //Punto en el que impacta la camara.
     private ContactPoint point;
-    public GameObject virtualCamera;
 
     private float initialCameraRotation;
     public static float min, max;
@@ -41,14 +40,18 @@ public class colliderCamera : MonoBehaviour
     void calculeAngle(Vector3 contactPoint)
     {
         //calcula el angulo inicial de la camara.
-        
-        virtualCamera.transform.rotation = Quaternion.FromToRotation(Vector3.forward, contactPoint) * virtualCamera.transform.rotation;
-        initialCameraRotation = virtualCamera.transform.rotation.y;
-        if (contactPoint.z < 0)
-            virtualCamera.transform.Rotate(0, 0, 180);
+        transform.rotation = Quaternion.FromToRotation(Vector3.forward, contactPoint) * transform.rotation;
 
-        min = initialCameraRotation - 0.6f;
-        max = initialCameraRotation + 0.6f;
+        initialCameraRotation = transform.localEulerAngles.y;
+
+        //Calcula los limites de la camara.
+        min = initialCameraRotation - 80f; if (min < 0) min += 360;
+        max = initialCameraRotation + 80f; if (max > 360) max -= 360;
+
+        //Si la camara va a salir del reves, la pone del derecho.
+        if (contactPoint.z < 0)
+            transform.Rotate(0, 0, 180);
+
 
     }
 }
