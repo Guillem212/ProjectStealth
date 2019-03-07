@@ -8,20 +8,16 @@ public class HookDetector : MonoBehaviour {
 
 	// Use this for initialization
 	void Awake () {
-        player = GameObject.Find("Player");
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
-
+        player = GameObject.Find("Player");    
+    }	
+    
     private void OnTriggerEnter(Collider other)
     {
         if (other.tag == "Hookable")
         {
             GrappingHook.hooked = true;
-            player.GetComponent<GrappingHook>().hookedObject = other.gameObject;
+            player.GetComponent<GrappingHook>().SetHookedObject(other.gameObject);
         }
     }
+    
 }

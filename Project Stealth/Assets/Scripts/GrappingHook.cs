@@ -2,89 +2,112 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GrappingHook : MonoBehaviour {
-
-    public GameObject hookPref;
-    public GameObject hookHolder;
-    public GameObject hookedObject;
-    GameObject hook;
+public class GrappingHook : MonoBehaviour
+{
+    #region variables
+    [SerializeField] private GameObject hookPref;
+    [SerializeField] private GameObject hookHolder;
+    [SerializeField] private GameObject hookedObject;
+    private GameObject hook;
     CharacterController characterController;
     private Vector3 hookDirection;
 
-    public float hookTravelSpeed;
-    public float playerTravelSpeed;
+    [SerializeField] private float hookTravelSpeed;
+    [SerializeField] private float playerTravelSpeed;
+    [SerializeField] private float maxDistance;
+
+    Vector3 wallNormal;
 
     public static bool fired; //si hemos o no disparado el gancho
-    public static bool hooked; //si se ha enganchado 
+    public static bool hooked; //si se ha enganchado    
 
-    public float maxDistance;
     private float currentDistance;
 
     private bool grounded;
+    #endregion
 
-    private void Awake()
+    void Awake()
     {
         characterController = GetComponent<CharacterController>();
     }
 
-    void Update () {
-        if (Input.GetMouseButtonDown(0) && !fired)
-        {
+    void Update()
+    {
+        //if (Input.GetMouseButtonDown(0)) { Debug.Log(CheckWallNormal()); }
+        
+        if (Input.GetMouseButtonDown(0) && !fired && CheckWallNormal())
+        {                       
+            //llegado a este punto ya tenemos la normal del muro que vamos a trepar
             fired = true;
-            hook = Instantiate(hookPref, hookHolder.transform.position,Camera.main.transform.rotation); //se instancia el gancho en la dirección de la cámara
+            hook = Instantiate(hookPref, hookHolder.transform.position, Camera.main.transform.rotation); //se instancia el gancho en la dirección de la cámara            
         }
 
         if (fired && !hooked) //mientars el gancho está en el aire
-        {            
-            hook.transform.Translate(Vector3.forward * Time.deltaTime * hookTravelSpeed); //desplazamiento
-            currentDistance = Vector3.Distance(transform.position, hook.transform.position); //comprueba distancia con el jugador para destruirse si se aleja demasiado
-
-            if (currentDistance >= maxDistance)
-            { ReturnHook(); } //destruir si se aleja
+        {
+            hook.transform.Translate(Vector3.forward * Time.deltaTime * hookTravelSpeed); //desplazamiento            
         }
 
-        if (hooked && fired ) //si se ha enganchado (lo decide HookDetector.cs)
-        {                                       
+        if (hooked && fired) //si se ha enganchado (lo decide HookDetector.cs)
+        {
+            print("alleVoy");       
             transform.position = Vector3.MoveTowards(transform.position, hook.transform.position, Time.deltaTime * playerTravelSpeed); //desplaza al jugador            
             float distanceToHook = Vector3.Distance(transform.position, hook.transform.position);
 
-            //this.GetComponent<Rigidbody>().useGravity = false;
-
             if (distanceToHook < 2)
             {
-                if (!grounded)
+                if (!grounded) //ARREGLAR
                 {
                     this.transform.Translate(Vector3.forward * Time.deltaTime * 13f);
                     this.transform.Translate(Vector3.up * Time.deltaTime * 18f);
                 }
-
                 StartCoroutine("Climb");
             }
         }
-        else {
-            //this.GetComponent<Rigidbody>().useGravity = true;
-            //hook.transform.parent = hookHolder.transform;
-        }
-        
-	}
-
-    IEnumerator Climb()
-    {        
-        yield return new WaitForSeconds(0.1f);
-        ReturnHook();
     }
 
-    void ReturnHook()
-    {        
-        Destroy(hook);
-        //hook.transform.rotation = hookHolder.transform.rotation;
-        //hook.transform.position = hookHolder.transform.position; //se puede cambiar respecto a la camara del jugador
+    public void SetHookedObject(GameObject hookableObj)
+    {
+        hookedObject = hookableObj;
+    }    
 
+    IEnumerator Climb()
+    {
+        /*
+        transform.position = Vector3.MoveTowards(transform.position, Vector3.up, Time.deltaTime * 20f); //desplaza al jugador         
+        yield return new WaitForSeconds(0.5f);
+        transform.position = Vector3.MoveTowards(transform.position, -Vector3.forward, Time.deltaTime * playerTravelSpeed); //desplaza al jugador         
+        */
+        yield return new WaitForSeconds(0.1f);
+        DestroyHook();
+    }
+
+    void DestroyHook()
+    {
+        Destroy(hook);
         fired = false;
         hooked = false;
     }
 
-    void CheckiFGrounded()
+    private bool CheckWallNormal()
+    {
+        RaycastHit hit;
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+        if (Physics.Raycast(transform.position, Camera.main.transform.TransformDirection(Vector3.forward), out hit, maxDistance) && hit.transform.tag == "Hookable") //si no hemos clicado un objeto enganchable no devuelve vector y no instancia ningun gancho
+        {            
+            //rayo de la normal
+            Debug.DrawRay(hit.point, hit.normal, Color.green, 3f);
+            wallNormal = hit.normal;
+            return true;
+        }
+        return false; 
+    }    
+}
+
+#region Funciones auxiliares
+/*
+ 
+    void CheckIfGrounded()
     {
         RaycastHit hit;
         float distance = 1f;
@@ -95,5 +118,41 @@ public class GrappingHook : MonoBehaviour {
             grounded = true;
         }
         else { grounded = false; }
+        print(grounded);
     }
-}
+
+    int checkWall() //1 si es pared normal, 0 si no es nada, 7 si es hookable
+    {
+        RaycastHit hit;
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        if (Physics.Raycast(transform.position, Camera.main.transform.TransformDirection(Vector3.forward), out hit))
+        {
+            if (hit.transform.tag == "Hookable") return 7;
+            else return 1;
+        }
+        return 0;
+    }
+
+    private void CheckWallNormal()
+    {
+        RaycastHit hit;
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+        if (Physics.Raycast(ray, out hit) )
+        {
+            //vector desde la camara hasta el punto en el que se ha clicado
+            Vector3 incomingVec = hit.point - hookHolder.transform.position;        
+            //vector de reflexion a partir de la normal del punto  
+            Vector3 reflectVec = Vector3.Reflect(incomingVec, hit.normal);
+
+            // linea de disparo
+            Debug.DrawLine(hookHolder.transform.position, hit.point, Color.red);
+            //linea de reflejo
+            Debug.DrawRay(hit.point,reflectVec, Color.green, 1f);
+            //rayo de la normal
+            Debug.DrawRay(hit.point, hit.normal, Color.green, 3f);
+        
+        }
+    }
+*/
+#endregion

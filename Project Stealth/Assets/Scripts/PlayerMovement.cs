@@ -7,6 +7,7 @@ public class PlayerMovement : MonoBehaviour
     public float speed = 6.0f;
     public float jumpSpeed = 8.0f;
     public float gravity = 20.0f;
+    GameObject hookHolder;
 
     private Vector3 moveDirection = Vector3.zero;
     private CharacterController controller;
@@ -16,11 +17,12 @@ public class PlayerMovement : MonoBehaviour
         controller = GetComponent<CharacterController>();
 
         Cursor.lockState = CursorLockMode.Locked;
+        hookHolder = GameObject.Find("HookHolder");
     }
 
     void Update()
-    {
-        if (!GrappingHook.hooked || !AttachCameraBehaviour.getLookingCamera())
+    {        
+        if (!GrappingHook.hooked && !AttachCameraBehaviour.getLookingCamera())
         {
             if (controller.isGrounded)
             {
