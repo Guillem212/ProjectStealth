@@ -22,7 +22,7 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {        
-        if (!GrappingHook.hooked && !AttachCameraBehaviour.getLookingCamera())
+        if (!GrappingHook.hookedIntoAnObject && !AttachCameraBehaviour.getLookingCamera())
         {
             if (controller.isGrounded)
             {

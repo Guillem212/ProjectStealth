@@ -5,9 +5,10 @@ using UnityEngine;
 public class GrappingHook : MonoBehaviour
 {
     #region variables
-    [SerializeField] private GameObject hookPref;
+    [SerializeField] private GameObject hookPrefab;
     [SerializeField] private GameObject hookHolder;
     [SerializeField] private GameObject hookedObject;
+    [SerializeField] private LayerMask layer;
     private GameObject hook;
     CharacterController characterController;
     private Vector3 hookDirection;
@@ -18,8 +19,8 @@ public class GrappingHook : MonoBehaviour
 
     Vector3 wallNormal;
 
-    public static bool fired; //si hemos o no disparado el gancho
-    public static bool hooked; //si se ha enganchado    
+    [HideInInspector]public static bool playerHasFiredTheHook; //si hemos o no disparado el gancho
+    [HideInInspector]public static bool hookedIntoAnObject; //si se ha enganchado    
 
     private float currentDistance;
 
@@ -35,21 +36,20 @@ public class GrappingHook : MonoBehaviour
     {
         //if (Input.GetMouseButtonDown(0)) { Debug.Log(CheckWallNormal()); }
         
-        if (Input.GetMouseButtonDown(0) && !fired && CheckWallNormal())
+        if (Input.GetButtonDown("ThrowHook") && !playerHasFiredTheHook && CheckWallNormal()) //h de momento
         {                       
             //llegado a este punto ya tenemos la normal del muro que vamos a trepar
-            fired = true;
-            hook = Instantiate(hookPref, hookHolder.transform.position, Camera.main.transform.rotation); //se instancia el gancho en la dirección de la cámara            
+            playerHasFiredTheHook = true;
+            hook = Instantiate(hookPrefab, hookHolder.transform.position, Camera.main.transform.rotation); //se instancia el gancho en la dirección de la cámara            
         }
 
-        if (fired && !hooked) //mientars el gancho está en el aire
+        if (playerHasFiredTheHook && !hookedIntoAnObject) //mientars el gancho está en el aire
         {
             hook.transform.Translate(Vector3.forward * Time.deltaTime * hookTravelSpeed); //desplazamiento            
         }
 
-        if (hooked && fired) //si se ha enganchado (lo decide HookDetector.cs)
-        {
-            print("alleVoy");       
+        if (hookedIntoAnObject && playerHasFiredTheHook) //si se ha enganchado (lo decide HookDetector.cs)
+        {            
             transform.position = Vector3.MoveTowards(transform.position, hook.transform.position, Time.deltaTime * playerTravelSpeed); //desplaza al jugador            
             float distanceToHook = Vector3.Distance(transform.position, hook.transform.position);
 
@@ -84,8 +84,8 @@ public class GrappingHook : MonoBehaviour
     void DestroyHook()
     {
         Destroy(hook);
-        fired = false;
-        hooked = false;
+        playerHasFiredTheHook = false;
+        hookedIntoAnObject = false;
     }
 
     private bool CheckWallNormal()
@@ -93,7 +93,7 @@ public class GrappingHook : MonoBehaviour
         RaycastHit hit;
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-        if (Physics.Raycast(transform.position, Camera.main.transform.TransformDirection(Vector3.forward), out hit, maxDistance) && hit.transform.tag == "Hookable") //si no hemos clicado un objeto enganchable no devuelve vector y no instancia ningun gancho
+        if (Physics.Raycast(transform.position, Camera.main.transform.TransformDirection(Vector3.forward), out hit, maxDistance, layer)) //si no hemos clicado un objeto enganchable no devuelve vector y no instancia ningun gancho
         {            
             //rayo de la normal
             Debug.DrawRay(hit.point, hit.normal, Color.green, 3f);
