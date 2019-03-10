@@ -6,7 +6,7 @@ public class GrabObjects : MonoBehaviour
 {
 
     [SerializeField] private float throwForce;
-    [SerializeField] private float minDistance;
+    [SerializeField] private float minDistance; //distancia minima hasta el objeto
     private GameObject objectToGrab;
     [SerializeField] private LayerMask layer;
 
@@ -21,15 +21,13 @@ public class GrabObjects : MonoBehaviour
         set { throwForce = value; }
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (Input.GetButtonDown("GrabObject") && !grabbingAnObject)
         {            
             RaycastHit hit;
             if (Physics.Raycast(transform.position, Camera.main.transform.TransformDirection(Vector3.forward), out hit, minDistance, layer))
-            {
-                print("true");
+            {                
                 grabbingAnObject = true;
                 objectToGrab = hit.transform.gameObject;                
                 StartCoroutine("IsTrigger");
@@ -47,7 +45,7 @@ public class GrabObjects : MonoBehaviour
             }
             else if (Input.GetButtonUp("GrabObject"))
             {
-                print("soltar");
+                //print("soltar");
                 objectToGrab.GetComponent<GrabbableObject>().ToTheGround();
             }
         }        
@@ -55,8 +53,7 @@ public class GrabObjects : MonoBehaviour
 
     IEnumerator IsTrigger()
     {
-        yield return new WaitForSeconds(0.3f);
-        objectToGrab.GetComponent<BoxCollider>().isTrigger = true;
-        print("hola");
+        yield return new WaitForSeconds(0.1f);
+        objectToGrab.GetComponent<BoxCollider>().isTrigger = true;        
     }
 }

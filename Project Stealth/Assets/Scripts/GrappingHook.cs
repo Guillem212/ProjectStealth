@@ -25,6 +25,9 @@ public class GrappingHook : MonoBehaviour
     private float currentDistance;
 
     private bool grounded;
+
+    private bool climbingUp = false;
+    private bool movingForward = false;
     #endregion
 
     void Awake()
@@ -46,6 +49,7 @@ public class GrappingHook : MonoBehaviour
         if (playerHasFiredTheHook && !hookedIntoAnObject) //mientars el gancho está en el aire
         {
             hook.transform.Translate(Vector3.forward * Time.deltaTime * hookTravelSpeed); //desplazamiento            
+            if (Vector3.Distance(transform.position, hook.transform.position) > maxDistance + 1f) DestroyHook(); //temporal para evitar bugs, funciona igual sin el
         }
 
         if (hookedIntoAnObject && playerHasFiredTheHook) //si se ha enganchado (lo decide HookDetector.cs)
@@ -55,31 +59,23 @@ public class GrappingHook : MonoBehaviour
 
             if (distanceToHook < 2)
             {
-                if (!grounded) //ARREGLAR
-                {
-                    this.transform.Translate(Vector3.forward * Time.deltaTime * 13f);
-                    this.transform.Translate(Vector3.up * Time.deltaTime * 18f);
-                }
-                StartCoroutine("Climb");
+                StartCoroutine(Climb());       
             }
         }
+    }
+
+    IEnumerator Climb()
+    {
+        yield return new WaitForSeconds(0.1f);
+        transform.Translate(Vector3.up * Time.deltaTime * 20f);
+        transform.Translate(-(wallNormal) * Time.deltaTime * 11f);
+        DestroyHook();
     }
 
     public void SetHookedObject(GameObject hookableObj)
     {
         hookedObject = hookableObj;
     }    
-
-    IEnumerator Climb()
-    {
-        /*
-        transform.position = Vector3.MoveTowards(transform.position, Vector3.up, Time.deltaTime * 20f); //desplaza al jugador         
-        yield return new WaitForSeconds(0.5f);
-        transform.position = Vector3.MoveTowards(transform.position, -Vector3.forward, Time.deltaTime * playerTravelSpeed); //desplaza al jugador         
-        */
-        yield return new WaitForSeconds(0.1f);
-        DestroyHook();
-    }
 
     void DestroyHook()
     {
@@ -101,10 +97,10 @@ public class GrappingHook : MonoBehaviour
             return true;
         }
         return false; 
-    }    
+    }
 }
 
-#region Funciones auxiliares
+#region Mis Putas MIerdas
 /*
  
     void CheckIfGrounded()
@@ -150,9 +146,24 @@ public class GrappingHook : MonoBehaviour
             //linea de reflejo
             Debug.DrawRay(hit.point,reflectVec, Color.green, 1f);
             //rayo de la normal
-            Debug.DrawRay(hit.point, hit.normal, Color.green, 3f);
-        
+            Debug.DrawRay(hit.point, hit.normal, Color.green, 3f);        
         }
     }
+
+    IEnumerator 3SecondsCoroutine()
+    {
+        
+        float duration = Time.time + 3.0f;
+        while (Time.time < duration)
+        {
+            print("hola");
+            yield return null;
+        }
+        print("adios");
+        yield return null;        
+    }
+
+    transform.position = Vector3.MoveTowards(transform.position, Vector3.up, Time.deltaTime * 20f); //desplaza al jugador                 
+    transform.position = Vector3.MoveTowards(transform.position, -Vector3.forward, Time.deltaTime * playerTravelSpeed); //desplaza al jugador         
 */
 #endregion
