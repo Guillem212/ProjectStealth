@@ -12,7 +12,9 @@ public class AttachCameraBehaviour : MonoBehaviour
 
     public LayerMask cameraMask;
 
+    [HideInInspector]
     public static bool cameraFixed = false;
+
     private static bool lookingCamera = false;
 
     private float mouseInput;
@@ -23,6 +25,9 @@ public class AttachCameraBehaviour : MonoBehaviour
 
     private float timeAlive = 4f;
     public static bool cameraThrowed = false;
+
+    private Vector2 cameraRotationLimits;
+    private Vector3 offset;
 
     private void Update()
     {
@@ -37,28 +42,7 @@ public class AttachCameraBehaviour : MonoBehaviour
             }
             if (Input.GetButtonDown("ThrowCamera"))
             {
-                RaycastHit hit;
-                Debug.DrawRay(transform.position, Camera.main.transform.TransformDirection(Vector3.forward * 5), Color.green);
-                // Does the ray intersect any objects excluding the player layer
-                if (Physics.Raycast(transform.position, Camera.main.transform.TransformDirection(Vector3.forward), out hit, 5f, cameraMask))
-                {
-                    Destroy(thisAttachableCamera);
-                    cameraFixed = false;
-                    lookingCamera = false;
-                }
-            }
-
-            if (lookingCamera)
-            {
-                //saca el input del raton o del mando.
-                mouseInput = Input.GetAxis("Mouse X");
-                lookhere = new Vector3(0, mouseInput, 0);
-
-                //Comprueba que está dentro de los limites de la camara, si lo esta, se mueve.
-                if (thisAttachableCamera.transform.localEulerAngles.y <= CollisionCamera.max && mouseInput > 0)
-                    thisAttachableCamera.transform.Rotate(lookhere);
-                else if(thisAttachableCamera.transform.localEulerAngles.y >= CollisionCamera.min && mouseInput < 0)
-                    thisAttachableCamera.transform.Rotate(lookhere);
+                destroyCamera();
             }
         }
         else
@@ -66,7 +50,8 @@ public class AttachCameraBehaviour : MonoBehaviour
             if (Input.GetButtonDown("ThrowCamera") && !cameraThrowed)
             {
                 //Spawnea y lanza la camara con una fuerza dada.
-                thisAttachableCamera = Instantiate(attachableCamera, transform.position + Camera.main.transform.TransformDirection(transform.forward), Quaternion.identity);
+                offset = new Vector3(transform.position.x, transform.position.y + 0.5f , transform.position.z);
+                thisAttachableCamera = Instantiate(attachableCamera, offset + Camera.main.transform.TransformDirection(transform.forward), Quaternion.identity);
                 thisAttachableCamera.GetComponent<Rigidbody>().AddForce(Camera.main.transform.TransformDirection(transform.forward) * throwForce);
                 cameraThrowed = true;
             }
@@ -85,6 +70,17 @@ public class AttachCameraBehaviour : MonoBehaviour
 
     }
 
+    void destroyCamera()
+    {
+        RaycastHit hit;
+
+        if (Physics.Raycast(transform.position, Camera.main.transform.TransformDirection(Vector3.forward), out hit, 2f, cameraMask))
+        {
+            Destroy(thisAttachableCamera);
+            cameraFixed = false;
+            lookingCamera = false;
+        }
+    }
 
     //Getter para poder saber si estás en la camara o no.
     public static bool getLookingCamera()
