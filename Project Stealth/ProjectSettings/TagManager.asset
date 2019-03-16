@@ -8,6 +8,7 @@ TagManager:
   - Hook
   - Hookable
   - Grabbable
+  - Enemy
   layers:
   - Default
   - TransparentFX

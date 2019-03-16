@@ -24,6 +24,8 @@ public class PlayerMovement : MonoBehaviour
     public GameObject virtualCamera;
     public GameObject playerModel;
 
+    public bool isWalking = false, isRunning = false, isCrouching = false, isJumping = false;
+
     void Start()
     {
         controller = GetComponent<CharacterController>();
@@ -43,10 +45,21 @@ public class PlayerMovement : MonoBehaviour
                 moveDirection = Camera.main.transform.TransformDirection(moveDirection);
                 moveDirection = moveDirection * speed;
                 moveDirection.y = 0f;
+                if (moveDirection != Vector3.zero)
+                    isWalking = true;
+                else
+                {
+                    isWalking = false;
+                }
 
                 if (Input.GetButtonDown("Jump"))
                 {
                     moveDirection.y = jumpSpeed;
+                    isJumping = true;
+                }
+                else
+                {
+                    isJumping = false;
                 }
             }
             moveDirection.y = moveDirection.y - (gravity * Time.deltaTime);
