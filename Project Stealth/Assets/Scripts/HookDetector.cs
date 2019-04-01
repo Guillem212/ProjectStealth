@@ -8,7 +8,7 @@ public class HookDetector : MonoBehaviour {
 
 	// Use this for initialization
 	void Awake () {
-        player = GameObject.Find("Player");    
+        player = GameObject.Find("PlayerAlvaro");    
     }	
     
     private void OnTriggerEnter(Collider other)
@@ -16,7 +16,7 @@ public class HookDetector : MonoBehaviour {
         if (other.tag == "Hookable")
         {
             GrappingHook.hookedIntoAnObject = true;
-            player.GetComponent<GrappingHook>().SetHookedObject(other.gameObject);
+            player.GetComponent<GrappingHook>().SetHookedObject(other.gameObject);            
         }
     }
     

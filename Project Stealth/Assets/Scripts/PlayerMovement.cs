@@ -5,9 +5,15 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     public float speed = 6.0f;
-    public float jumpSpeed = 8.0f;
+    private float initialSpeed = 6.0f;    
     public float gravity = 20.0f;
     GameObject hookHolder;
+    private Animator animator;
+
+    //jump
+    private bool isJumping;
+    [SerializeField] private AnimationCurve jumpFallOff;
+    [SerializeField] private float jumpMultiplier;    
 
     private Vector3 moveDirection = Vector3.zero;
     private CharacterController controller;
@@ -24,35 +30,76 @@ public class PlayerMovement : MonoBehaviour
     public GameObject virtualCamera;
     public GameObject playerModel;
 
+    Vector3 forwardMovement;
+    Vector3 rightMovement;
+
+
     void Start()
     {
         controller = GetComponent<CharacterController>();
 
         Cursor.lockState = CursorLockMode.Locked;
         hookHolder = GameObject.Find("HookHolder");
+
+        animator = GameObject.Find("Character").GetComponent<Animator>();
     }
 
     void Update()
     {        
         if (!GrappingHook.hookedIntoAnObject && !AttachCameraBehaviour.getLookingCamera())
         {
-            cameraRotate();
+            speed = initialSpeed;
+            //cameraRotate();            
             if (controller.isGrounded)
             {
-                moveDirection = new Vector3(Input.GetAxis("Horizontal"), 0.0f, Input.GetAxis("Vertical"));
-                moveDirection = Camera.main.transform.TransformDirection(moveDirection);
-                moveDirection = moveDirection * speed;
-                moveDirection.y = 0f;
-
-                if (Input.GetButtonDown("Jump"))
+                if (Input.GetButton("Sprint"))
                 {
-                    moveDirection.y = jumpSpeed;
+                    speed = speed * 2;
+                    if (animator.GetBool("Crouched"))
+                    { StandUp(); }
                 }
-            }
-            moveDirection.y = moveDirection.y - (gravity * Time.deltaTime);
 
-            controller.Move(moveDirection * Time.deltaTime);
+                else if (Input.GetButtonDown("Crouch")) 
+                {
+                    if(!animator.GetBool("Crouched")) //si no está agachado
+                    {
+                        animator.SetTrigger("ToCrouch");                        
+                        animator.SetBool("Crouched", true);
+                        controller.radius = 1f;
+                        controller.center = new Vector3(0, -0.5f, 0);                        
+                    }
+                    else //si está agachado
+                    {
+                        StandUp();                        
+                    }
+                }
+
+                if(Input.GetButtonDown("Jump") && !isJumping)
+                {
+                    isJumping = true;
+                    StartCoroutine(JumpEvent());
+                }
+
+                if (animator.GetBool("Crouched"))
+                {
+                    speed = speed / 2;
+                }
+
+                float vertInput = Input.GetAxis("Vertical") * speed;
+                float horizInput = Input.GetAxis("Horizontal") * speed;
+
+                forwardMovement = transform.forward * vertInput;
+                rightMovement = transform.right * horizInput;
+            }            
+            controller.SimpleMove(forwardMovement + rightMovement);
         }        
+    }
+
+    void StandUp()
+    {
+        controller.radius = 2f;
+        controller.center = new Vector3(0, 0, 0);
+        animator.SetBool("Crouched", false);
     }
 
     void cameraRotate()
@@ -64,5 +111,22 @@ public class PlayerMovement : MonoBehaviour
 
         playerModel.transform.localEulerAngles =new Vector3(0, virtualCamera.transform.localEulerAngles.y, 0);
 
+    }  
+
+    private IEnumerator JumpEvent()
+    {
+        float timeInAir = 0.0f;
+        float jumpForce;
+        do
+        {
+            jumpForce = jumpFallOff.Evaluate(timeInAir);
+            controller.Move(Vector3.up * jumpForce * jumpMultiplier * Time.deltaTime);
+            timeInAir += Time.deltaTime;
+            yield return null;
+        } while (!controller.isGrounded && controller.collisionFlags != CollisionFlags.Above); //si toca techo cae de inmediato
+
+        isJumping = false;
+        
     }
+
 }

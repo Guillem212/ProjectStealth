@@ -28,6 +28,9 @@ public class GrappingHook : MonoBehaviour
 
     private bool climbingUp = false;
     private bool movingForward = false;
+
+    [SerializeField] private float upForce; //20
+    [SerializeField] private float forwardForce; //15
     #endregion
 
     void Awake()
@@ -36,8 +39,7 @@ public class GrappingHook : MonoBehaviour
     }
 
     void Update()
-    {
-        //if (Input.GetMouseButtonDown(0)) { Debug.Log(CheckWallNormal()); }
+    {          
         
         if (Input.GetButtonDown("ThrowHook") && !playerHasFiredTheHook && CheckWallNormal()) //h de momento
         {                       
@@ -58,17 +60,25 @@ public class GrappingHook : MonoBehaviour
             float distanceToHook = Vector3.Distance(transform.position, hook.transform.position);
 
             if (distanceToHook < 2)
-            {
+            {                
                 StartCoroutine(Climb());       
             }
         }
     }
 
+    //Vector3 temp = new Vector3(0, hookedObject.transform.position.y, 0);
+    //transform.position += temp;
+
     IEnumerator Climb()
-    {
-        yield return new WaitForSeconds(0.1f);
-        transform.Translate(Vector3.up * Time.deltaTime * 20f);
-        transform.Translate(-(wallNormal) * Time.deltaTime * 11f);
+    {        
+        playerHasFiredTheHook = false;
+        transform.rotation = Quaternion.LookRotation(-wallNormal, Vector3.up);        
+        
+        transform.position = new Vector3(transform.position.x, hookedObject.transform.position.y, transform.position.z);
+        yield return new WaitForSeconds(2f);
+        
+        //transform.Translate(Vector3.up * upForce);
+        //transform.Translate(-(wallNormal) * forwardForce, Space.World);
         DestroyHook();
     }
 
@@ -89,9 +99,10 @@ public class GrappingHook : MonoBehaviour
         RaycastHit hit;
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-        if (Physics.Raycast(transform.position, Camera.main.transform.TransformDirection(Vector3.forward), out hit, maxDistance, layer)) //si no hemos clicado un objeto enganchable no devuelve vector y no instancia ningun gancho
-        {            
+        if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.TransformDirection(Vector3.forward), out hit, maxDistance, layer)) //si no hemos clicado un objeto enganchable no devuelve vector y no instancia ningun gancho
+        {
             //rayo de la normal
+            Debug.DrawRay(transform.position, Camera.main.transform.TransformDirection(Vector3.forward), Color.red, 3f);
             Debug.DrawRay(hit.point, hit.normal, Color.green, 3f);
             wallNormal = hit.normal;
             return true;

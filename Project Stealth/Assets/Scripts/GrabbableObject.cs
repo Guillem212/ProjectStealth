@@ -10,7 +10,7 @@ public class GrabbableObject : MonoBehaviour
     private void Awake()
     {
         rigidBody = GetComponent<Rigidbody>();
-        grabScript = GameObject.Find("Player").GetComponent<GrabObjects>();
+        grabScript = GameObject.Find("PlayerAlvaro").GetComponent<GrabObjects>();
     }    
     
     private void OnTriggerEnter(Collider other)

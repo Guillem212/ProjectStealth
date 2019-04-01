@@ -23,11 +23,13 @@ public class GrabObjects : MonoBehaviour
 
     void Update()
     {
+        //Debug.DrawRay(Camera.main.transform.position, Camera.main.transform.TransformDirection(Vector3.forward), Color.green,);
         if (Input.GetButtonDown("GrabObject") && !grabbingAnObject)
         {            
             RaycastHit hit;
-            if (Physics.Raycast(transform.position, Camera.main.transform.TransformDirection(Vector3.forward), out hit, minDistance, layer))
-            {                
+            if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.TransformDirection(Vector3.forward), out hit, minDistance, layer))
+            {
+                //print("raycast OK");
                 grabbingAnObject = true;
                 objectToGrab = hit.transform.gameObject;                
                 StartCoroutine("IsTrigger");
