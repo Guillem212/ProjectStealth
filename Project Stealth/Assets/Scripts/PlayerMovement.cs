@@ -8,7 +8,7 @@ public class PlayerMovement : MonoBehaviour
     private float initialSpeed = 6.0f;    
     public float gravity = 20.0f;
     GameObject hookHolder;
-    private Animator animator;
+    private Animator animator;    
 
     //jump
     private bool isJumping;
@@ -45,7 +45,8 @@ public class PlayerMovement : MonoBehaviour
     }
 
     void Update()
-    {        
+    {
+
         if (!GrappingHook.hookedIntoAnObject && !AttachCameraBehaviour.getLookingCamera())
         {
             speed = initialSpeed;

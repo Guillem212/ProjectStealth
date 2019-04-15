@@ -7,19 +7,36 @@ public class PlayerLook : MonoBehaviour
 
     [SerializeField] private float mouseSensitivity;
     [SerializeField] private Transform playerBody;
+    [SerializeField] private GameObject player;
     private float minPitch = -80f;
-    private float maxPitch = 60f;
+    private float maxPitch = 60f;   
 
     private float xAxisClamp;
+
+    float initialXPos;
+    float initialYPos;
 
     private void Awake()
     {
         xAxisClamp = 0.0f;
+        initialXPos = transform.position.x;
+        initialYPos = transform.position.y;
     }
     
     private void Update()
-    {
-        CameraRotation();
+    {        
+        if (Input.GetButtonDown("CrouchLeft")){
+            player.transform.Rotate(0, 0, 25.0f);
+        }
+        if (Input.GetButtonUp("CrouchLeft"))
+        {
+            player.transform.Rotate(0, 0, -25.0f);
+        }
+        else {
+            //transform.position = new Vector3(initialXPos, initialYPos, transform.position.z);
+            //player.transform.Rotate(0, 0, -25.0f);
+            CameraRotation();
+        }
     }
 
     private void CameraRotation()
