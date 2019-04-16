@@ -25,18 +25,19 @@ public class PlayerLook : MonoBehaviour
     
     private void Update()
     {        
-        if (Input.GetButtonDown("CrouchLeft")){
-            player.transform.Rotate(0, 0, 25.0f);
+        /*if (Input.GetButtonDown("CrouchLeft"))
+        {
+            player.transform.Rotate(0, 0, 25.0f );
         }
-        if (Input.GetButtonUp("CrouchLeft"))
+        if (Input.GetButtonDown("CrouchRight"))
         {
             player.transform.Rotate(0, 0, -25.0f);
         }
-        else {
+        else {*/
             //transform.position = new Vector3(initialXPos, initialYPos, transform.position.z);
             //player.transform.Rotate(0, 0, -25.0f);
             CameraRotation();
-        }
+        //}
     }
 
     private void CameraRotation()
