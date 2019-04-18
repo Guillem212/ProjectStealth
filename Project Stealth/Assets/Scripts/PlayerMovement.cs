@@ -47,7 +47,7 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {
 
-        if (!GrappingHook.hookedIntoAnObject && !AttachCameraBehaviour.getLookingCamera())
+        if (!GrappingHook.hookedIntoAnObject && !AttachCameraBehaviour.getLookingCamera() && !GrappingHook.test)
         {
             speed = initialSpeed;
             //cameraRotate();            

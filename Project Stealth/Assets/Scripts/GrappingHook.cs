@@ -33,14 +33,27 @@ public class GrappingHook : MonoBehaviour
     [SerializeField] private float forwardForce; //15
     #endregion
 
+    /// EL BUEN LERPEO CUMBIÓN //////////////
+    float lerpTime = 3f; //from begginning to el final 
+    bool lerp = false;
+    Vector3 from;
+    Vector3 to;
+    public static bool test = false;
+    float timeStartedLerping;
+
     void Awake()
     {
         characterController = GetComponent<CharacterController>();
     }
 
     void Update()
-    {          
-        
+    {
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            timeStartedLerping = Time.time;
+
+            test = true;
+        }
         if (Input.GetButtonDown("ThrowHook") && !playerHasFiredTheHook && CheckWallNormal()) //h de momento
         {                       
             //llegado a este punto ya tenemos la normal del muro que vamos a trepar
@@ -61,8 +74,24 @@ public class GrappingHook : MonoBehaviour
 
             if (distanceToHook < 2)
             {                
-                StartCoroutine(Climb());       
+                StartCoroutine(Climb());
+
+                if (lerp)
+                {/*
+                    currentLerpTime += Time.deltaTime; //incremento del tiempo
+                    if (currentLerpTime >= lerpTime)
+                    { currentLerpTime = lerpTime; }
+
+                    float perc = currentLerpTime / lerpTime;
+                    transform.position = Vector3.Lerp(from, to, perc);*/
+                }                               
             }
+        }
+        if (test)
+        {            
+            StartCoroutine(TEST());
+
+            transform.position = Lerp(from, to, timeStartedLerping, lerpTime);
         }
     }
 
@@ -70,16 +99,47 @@ public class GrappingHook : MonoBehaviour
     //transform.position += temp;
 
     IEnumerator Climb()
-    {        
-        playerHasFiredTheHook = false;
+    {
+        yield return new WaitForSeconds(0.5f);
+        lerp = true;
+        from = transform.position;
+        to = Vector3.up * upForce;
+
+        //playerHasFiredTheHook = false; posicion inicial
         transform.rotation = Quaternion.LookRotation(-wallNormal, Vector3.up);        
         
         transform.position = new Vector3(transform.position.x, hookedObject.transform.position.y, transform.position.z);
-        yield return new WaitForSeconds(2f);
-        
+
+        yield return new WaitForSeconds(2f); //mientras sube, luego se desactiva
+
+        playerHasFiredTheHook = false;
+        test = false;
+
         //transform.Translate(Vector3.up * upForce);
         //transform.Translate(-(wallNormal) * forwardForce, Space.World);
         DestroyHook();
+    }
+
+    IEnumerator TEST()
+    {
+        lerp = true; //2 segundos para lerp
+        from = transform.position;
+        to = new Vector3(transform.position.x, transform.position.y + 2f, transform.position.z);
+
+        yield return new WaitForSeconds(2f); //mientras sube, luego se desactiva
+
+        test = false;
+    }
+
+    public Vector3 Lerp(Vector3 start, Vector3 end, float timeStartedLerping, float lerpTime = 1)
+    {
+        float timeSinceStarted = Time.time - timeStartedLerping;
+
+        float percentageComplete = timeSinceStarted / lerpTime;
+
+        var result = Vector3.Lerp(start, end, percentageComplete);
+
+        return result;
     }
 
     public void SetHookedObject(GameObject hookableObj)
