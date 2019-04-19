@@ -10,7 +10,7 @@ public class GrabbableObject : MonoBehaviour
     private void Awake()
     {
         rigidBody = GetComponent<Rigidbody>();
-        grabScript = GameObject.Find("PlayerAlvaro").GetComponent<GrabObjects>();
+        grabScript = GameObject.Find("Player").GetComponent<GrabObjects>();
     }    
     
     private void OnTriggerEnter(Collider other)
@@ -28,7 +28,8 @@ public class GrabbableObject : MonoBehaviour
     }
 
     public void ToTheGround()
-    {     
+    {
+        ArmsAnimatorBehabior.GrabObjects(0);
         rigidBody.isKinematic = false;
         grabScript.grabbingAnObject = false;
         transform.parent = null;

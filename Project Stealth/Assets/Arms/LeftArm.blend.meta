@@ -30,6 +30,32 @@ ModelImporter:
     100048: Nucleo
     100050: pulgar
     100052: RefMu_eca
+    100054: anular_0
+    100056: Bone_0
+    100058: Bone_10
+    100060: Bone_11
+    100062: Bone_12
+    100064: Bone_14
+    100066: Bone_15
+    100068: Bone_16
+    100070: Bone_19
+    100072: Bone_2
+    100074: Bone_20
+    100076: Bone_21
+    100078: Bone_23
+    100080: Bone_24
+    100082: Bone_3
+    100084: Bone_6
+    100086: Bone_7
+    100088: Bone_8
+    100090: Brazo_derecho_hueso
+    100092: Brazo_derecho_malla
+    100094: corazon_0
+    100096: indice_0
+    100098: me_ique_0
+    100100: Nucleo_0
+    100102: pulgar_0
+    100104: RefMu_eca_0
     400000: anular
     400002: Bone
     400004: Bone_001
@@ -57,15 +83,53 @@ ModelImporter:
     400048: Nucleo
     400050: pulgar
     400052: RefMu_eca
+    400054: anular_0
+    400056: Bone_0
+    400058: Bone_10
+    400060: Bone_11
+    400062: Bone_12
+    400064: Bone_14
+    400066: Bone_15
+    400068: Bone_16
+    400070: Bone_19
+    400072: Bone_2
+    400074: Bone_20
+    400076: Bone_21
+    400078: Bone_23
+    400080: Bone_24
+    400082: Bone_3
+    400084: Bone_6
+    400086: Bone_7
+    400088: Bone_8
+    400090: Brazo_derecho_hueso
+    400092: Brazo_derecho_malla
+    400094: corazon_0
+    400096: indice_0
+    400098: me_ique_0
+    400100: Nucleo_0
+    400102: pulgar_0
+    400104: RefMu_eca_0
     2100000: Material_010
+    2100002: Material_009
     4300000: Brazo_izquierdo_malla
+    4300002: Brazo_derecho_malla
     7400000: Default Take
     7400002: Brazo_Izquierdo_huesoAction
     7400004: Idle_Left
     7400006: Idle_Right
     7400008: Show_Hand
+    7400010: StealthLeft
+    7400012: ToWallLeft
+    7400014: WalkStealthLeft
+    7400016: HideHand
+    7400018: WalkStealthLeft_001
+    7400020: WalkStealthRight_001
+    7400022: HideHandLeft
+    7400024: ClimbLeft
     9500000: //RootNode
     13700000: Brazo_izquierdo_malla
+    13700002: Brazo_derecho_malla
+    2186277476908879412: ImportLogs
   externalObjects: {}
   materials:
     importMaterials: 1
@@ -123,18 +187,18 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Idle_Left
-      takeName: Idle_Left
+      name: StealthLeft
+      takeName: StealthLeft
       firstFrame: -1
-      lastFrame: 33
+      lastFrame: 729
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
       cycleOffset: 0
       loop: 0
       hasAdditiveReferencePose: 0
-      loopTime: 0
-      loopBlend: 0
+      loopTime: 1
+      loopBlend: 1
       loopBlendOrientation: 0
       loopBlendPositionY: 0
       loopBlendPositionXZ: 0
@@ -151,10 +215,10 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Idle_Right
-      takeName: Idle_Right
+      name: ToWallLeft
+      takeName: ToWallLeft
       firstFrame: -1
-      lastFrame: 223
+      lastFrame: 24
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -183,6 +247,62 @@ ModelImporter:
       takeName: Show_Hand
       firstFrame: 0
       lastFrame: 75
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: HideHandLeft
+      takeName: HideHandLeft
+      firstFrame: -1
+      lastFrame: 155
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: ClimbLeft
+      takeName: ClimbLeft
+      firstFrame: -1
+      lastFrame: 121
       wrapMode: 0
       orientationOffsetY: 0
       level: 0

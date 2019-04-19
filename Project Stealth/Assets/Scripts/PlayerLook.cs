@@ -9,8 +9,10 @@ public class PlayerLook : MonoBehaviour
     [SerializeField] private Transform playerBody;
     [SerializeField] private GameObject player;
     private float minPitch = -80f;
-    private float maxPitch = 60f;   
+    private float maxPitch = 60f;
+    Climb climbScript;
 
+    //23.658
     private float xAxisClamp;
 
     float initialXPos;
@@ -21,10 +23,14 @@ public class PlayerLook : MonoBehaviour
         xAxisClamp = 0.0f;
         initialXPos = transform.position.x;
         initialYPos = transform.position.y;
+        climbScript = player.GetComponent<Climb>();
     }
     
     private void Update()
-    {        
+    {
+        //bloquea la rotación mientras se escala
+        if (!climbScript.isClimbing)
+            CameraRotation();    
         /*if (Input.GetButtonDown("CrouchLeft"))
         {
             player.transform.Rotate(0, 0, 25.0f );
@@ -34,9 +40,8 @@ public class PlayerLook : MonoBehaviour
             player.transform.Rotate(0, 0, -25.0f);
         }
         else {*/
-            //transform.position = new Vector3(initialXPos, initialYPos, transform.position.z);
-            //player.transform.Rotate(0, 0, -25.0f);
-            CameraRotation();
+        //transform.position = new Vector3(initialXPos, initialYPos, transform.position.z);
+        //player.transform.Rotate(0, 0, -25.0f);            
         //}
     }
 
@@ -45,14 +50,14 @@ public class PlayerLook : MonoBehaviour
         float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime; //mouse X = input name
         float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity * Time.deltaTime;
 
-        xAxisClamp += mouseY; //la suma final es +90 mirando hacia arriba y -90 hacia abajo
+        xAxisClamp += mouseY; //la suma final es +70 mirando hacia arriba y -70 hacia abajo
         //print(xAxisClamp);
 
         if (xAxisClamp > 70.0f)
         {
             xAxisClamp = 70.0f;
             mouseY = 0.0f; //anula transform.rotate
-            ClampXAxisRotationToValue(280.0f);
+            ClampXAxisRotationToValue(290.0f);
         }
         else if (xAxisClamp < -70.0f)
         {
@@ -69,5 +74,10 @@ public class PlayerLook : MonoBehaviour
         Vector3 eulerRotation = transform.eulerAngles;
         eulerRotation.x = value;
         transform.eulerAngles = eulerRotation;
+    }
+
+    public void FixClamp(float rotationValue)
+    {
+        xAxisClamp = -rotationValue;
     }
 }
