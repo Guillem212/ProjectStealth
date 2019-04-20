@@ -12,11 +12,19 @@ public class PlayerLook : MonoBehaviour
     private float maxPitch = 60f;
     Climb climbScript;
 
-    //23.658
+    #region lerping
+    Quaternion from;
+    Quaternion to;
+    [SerializeField] bool lerping = false;
+    [SerializeField] float speed = 3f;
+    float turningTime = 0f;
+    Transform t;
+    #endregion
+
     private float xAxisClamp;
 
     float initialXPos;
-    float initialYPos;
+    float initialYPos;    
 
     private void Awake()
     {
@@ -24,26 +32,91 @@ public class PlayerLook : MonoBehaviour
         initialXPos = transform.position.x;
         initialYPos = transform.position.y;
         climbScript = player.GetComponent<Climb>();
+        t = player.GetComponent<Transform>();
     }
     
     private void Update()
     {
-        //bloquea la rotación mientras se escala
-        if (!climbScript.isClimbing)
+        //bloquea la rotación mientras se escala o se asoma
+        if (!climbScript.isClimbing && !lerping) 
             CameraRotation();    
-        /*if (Input.GetButtonDown("CrouchLeft"))
+        if (Input.GetButton("CrouchRight") && !lerping)
         {
-            player.transform.Rotate(0, 0, 25.0f );
+            lerping = true;
+            from = t.rotation;
+            to = Quaternion.Euler(new Vector3(t.rotation.eulerAngles.x, t.rotation.eulerAngles.y, -35f));
+            turningTime = 0f;
         }
+        else if (Input.GetButton("CrouchLeft") && !lerping)
+        {
+            lerping = true;
+            from = t.rotation;
+            to = Quaternion.Euler(new Vector3(t.rotation.eulerAngles.x, t.rotation.eulerAngles.y, 35f));
+            turningTime = 0f;
+        }
+
+        if (lerping)
+        {
+            if (Input.GetButtonUp("CrouchLeft") || (Input.GetButtonUp("CrouchRight"))) //si está lerpeando y soltamos un botón
+            {                
+                from = t.rotation;
+                to = Quaternion.Euler(new Vector3(t.rotation.eulerAngles.x, t.rotation.eulerAngles.y, 0f));
+                turningTime = 0f;
+            }            
+            turningTime += Time.fixedDeltaTime * speed;
+            t.rotation = Quaternion.Lerp(from, to, turningTime);            
+
+            if (t.rotation.eulerAngles.z <= 0.4f && t.rotation.eulerAngles.z >= -0.4f)
+            {
+                lerping = false;
+            }
+        }        
+    }
+
+    /*private void Update()
+    {
+        //bloquea la rotación mientras se escala o se asoma
+        if (!climbScript.isClimbing && !lerping)
+            CameraRotation();
         if (Input.GetButtonDown("CrouchRight"))
         {
-            player.transform.Rotate(0, 0, -25.0f);
+            lerping = true;
+            from = t.rotation;
+            to = Quaternion.Euler(new Vector3(t.rotation.eulerAngles.x, t.rotation.eulerAngles.y, -35f));
+            turningTime = 0f;
         }
-        else {*/
-        //transform.position = new Vector3(initialXPos, initialYPos, transform.position.z);
-        //player.transform.Rotate(0, 0, -25.0f);            
-        //}
-    }
+        else if (Input.GetButtonUp("CrouchRight"))
+        {
+            from = t.rotation;
+            to = Quaternion.Euler(new Vector3(t.rotation.eulerAngles.x, t.rotation.eulerAngles.y, 0f));
+            turningTime = 0f;
+        }
+        else if (Input.GetButtonDown("CrouchLeft"))
+        {
+            lerping = true;
+            from = t.rotation;
+            to = Quaternion.Euler(new Vector3(t.rotation.eulerAngles.x, t.rotation.eulerAngles.y, 35f));
+            turningTime = 0f;
+        }
+        else if (Input.GetButtonUp("CrouchLeft"))
+        {
+            from = t.rotation;
+            to = Quaternion.Euler(new Vector3(t.rotation.eulerAngles.x, t.rotation.eulerAngles.y, 0f));
+            turningTime = 0f;
+        }
+
+
+        if (lerping)
+        {
+            turningTime += Time.fixedDeltaTime * speed;
+            t.rotation = Quaternion.Lerp(from, to, turningTime);
+            print(t.rotation == to);
+            if (t.rotation.eulerAngles.z <= 0.5f)
+            {
+                lerping = false;
+            }
+        }
+    }*/
 
     private void CameraRotation()
     {
