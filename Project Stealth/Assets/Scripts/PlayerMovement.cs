@@ -7,7 +7,8 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float speed = 5.0f;
     private float initialSpeed = 5.0f;
     [SerializeField] private float gravity = 20.0f;
-    GameObject hookHolder;
+    [SerializeField] GameObject hookHolder;
+    [SerializeField] GameObject playerCam;
     ArmsAnimatorBehabior armsAnim;
 
     //jump
@@ -18,10 +19,12 @@ public class PlayerMovement : MonoBehaviour
     private Vector3 moveDirection = Vector3.zero;
     private CharacterController controller;
     private Climb climbScript;
+    private PlayerLook pl;
 
 
     public float SpeedH = 10f;
     public float SpeedV = 10f;
+    public static bool isWalking = false;
 
     private float yaw = 0f;
     private float pitch = 0f;
@@ -42,20 +45,18 @@ public class PlayerMovement : MonoBehaviour
         controller = GetComponent<CharacterController>();
         armsAnim = GetComponent<ArmsAnimatorBehabior>();
         climbScript = GetComponent<Climb>();
+        pl = playerCam.GetComponent<PlayerLook>();
 
         Cursor.lockState = CursorLockMode.Locked;
-        hookHolder = GameObject.Find("HookHolder");
         Crouch();
     }
 
     void Update()
-    {
-        
-        crouched = ArmsAnimatorBehabior.rightArmAnimator.GetBool("Crouched"); //mejor si se guarda una única vez        
-        if (!GrappingHook.HookedIntoAnObject && !AttachCameraBehaviour.getLookingCamera() && !Climb.isLerping)
-        {
+    {        
+        crouched = ArmsAnimatorBehabior.rightArmAnimator.GetBool("Crouched"); //mejor si se guarda una única vez
+        if (!GrappingHook.HookedIntoAnObject && !AttachCameraBehaviour.getLookingCamera() && !Climb.isLerping && !pl.lerping)
+        {            
             speed = initialSpeed;
-            //cameraRotate();
             if (controller.isGrounded)
             {
                 if (Input.GetButton("Sprint")) //BORRAR AL FINAL
@@ -76,7 +77,7 @@ public class PlayerMovement : MonoBehaviour
                     }
                 }
 
-                if (Input.GetButtonDown("Jump") && !isJumping) //Cambiar
+                if (Input.GetButtonDown("Jump") && !isJumping && !climbScript.isClimbing) //Cambiar
                 {                    
                     if (Climb.readyToClimb && climbScript.CheckWallNormalForClimb()) { climbScript.StartClimbCoroutine(); } //readytoclimb = el climb sensor se encuentra dentro de un borde
                     else {
@@ -105,6 +106,7 @@ public class PlayerMovement : MonoBehaviour
                 rightMovement = transform.right * horizInput;
             }
             controller.SimpleMove(forwardMovement + rightMovement);
+            isWalking = (forwardMovement != Vector3.zero || rightMovement != Vector3.zero); //para asomarse por las esquinas
         }
     }
 
@@ -123,16 +125,6 @@ public class PlayerMovement : MonoBehaviour
         controller.height = 2f;
     }
 
-    void cameraRotate() //SE USA?
-    {
-        yaw += Input.GetAxis("Mouse X") * SpeedH;
-        pitch -= Input.GetAxis("Mouse Y") * SpeedV;
-        pitch = Mathf.Clamp(pitch, minPitch, maxPitch);
-        virtualCamera.transform.eulerAngles = new Vector3(pitch, yaw, 0f);
-
-        playerModel.transform.localEulerAngles =new Vector3(0, virtualCamera.transform.localEulerAngles.y, 0);
-    }  
-
     private IEnumerator JumpEvent()
     {
         float timeInAir = 0.0f;
@@ -147,22 +139,4 @@ public class PlayerMovement : MonoBehaviour
         isJumping = false;
         
     }
-    /*
-    private IEnumerator JumpToEdge()
-    {
-        GrappingHook.hookedIntoAnObject = true;
-        float timeInAir = 0.0f;
-        float jumpForce;
-        do
-        {
-            jumpForce = jumpFallOff.Evaluate(timeInAir);
-            controller.Move(Vector3.up * jumpForce * jumpMultiplier * Time.deltaTime);
-            timeInAir += Time.deltaTime;
-            yield return null;
-        } while (timeInAir < 0.2f && !controller.isGrounded);        
-        isJumping = false;
-        climbScript.StartClimbCoroutine();
-        GrappingHook.hookedIntoAnObject = false;
-    }*/
-
 }

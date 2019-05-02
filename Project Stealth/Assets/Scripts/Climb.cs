@@ -4,28 +4,29 @@ using UnityEngine;
 
 public class Climb : MonoBehaviour
 {
-    #region variables
+    #region variables    
+    [Header("GameObjects")]
+    public GameObject playerCam;
     [SerializeField] private GameObject climbSpotPrefab;
     [SerializeField] private GameObject climbHolder;
-    private GameObject climbSensor;
+    [SerializeField] private GameObject climbSensor;
     private GameObject objectToClimb;
+    [Space]
+    [Header("Parameters")]
     [SerializeField] private float maxClimbDistance;
-    [SerializeField] private float i_maxHookingDistance;    
+    [SerializeField] private float i_maxHookingDistance;
+    public static bool readyToClimb = false;
+    [SerializeField] private LayerMask layer;
     public float maxClimbingDistance
     {
         get { return i_maxHookingDistance; }
         set { i_maxHookingDistance = value; }
-    }
-
-    public GameObject playerCam;
-
-    public static bool readyToClimb = false;
-
-    [SerializeField] private LayerMask layer;
-
+    }        
     private GameObject climbSpot;
     private GrappingHook hookScript;
-    private ArmsAnimatorBehabior animator;    
+    private ArmsAnimatorBehabior animator;
+    [Space]
+    [Header("Control")]
     public static bool isLerping;
     public bool isClimbing { get; private set; }
 
@@ -37,19 +38,19 @@ public class Climb : MonoBehaviour
     {
         hookScript = GetComponent<GrappingHook>();
         animator = GetComponent<ArmsAnimatorBehabior>();
-        climbSensor = GameObject.Find("ClimbSensor");
     }
 
     void LateUpdate()
-    {
+    {        
         if (isLerping)
         {            
-            transform.position = Vector3.Slerp(transform.position, climbSpot.transform.position, 0.05f);
-            if (Vector3.Distance(transform.position, climbSpot.transform.position) < 0.5f) {
+            transform.position = Vector3.Slerp(transform.position, climbSpot.transform.position, 0.3f);
+            if (Vector3.Distance(transform.position, climbSpot.transform.position) < 0.2f) {
                 isLerping = false;
                 isClimbing = false;
-                Destroy(climbSpot);                
+                Destroy(climbSpot);
                 playerCam.GetComponent<PlayerLook>().FixClamp(playerCam.transform.eulerAngles.x - 360f); //angulo de llegada para ajustar el clamp
+                ArmsAnimatorBehabior.ArmsToWall(false);
                 if (ArmsAnimatorBehabior.rightArmAnimator.GetBool("Crouched")) { animator.SetActiveColliders(true); } //si al llegar estamos agachados reactivar colliders de manos
             }
         }
@@ -66,11 +67,11 @@ public class Climb : MonoBehaviour
     }
 
     IEnumerator ClimbAction()
-    {
+    {        
         isClimbing = true;
         animator.SetActiveColliders(false); //desactiva los colliders de las manos para evitar bug de animacion
         //centra la dirección del personaje en dirección contraria al muro        
-        transform.rotation = Quaternion.LookRotation(-wallNormal, Vector3.up); 
+        transform.rotation = Quaternion.LookRotation(-wallNormal, Vector3.up);
         //se centra al personaje en una altura universal (hookedObject siempre tiene el mismo ancho)
         transform.position = new Vector3(transform.position.x, objectToClimb.transform.position.y, transform.position.z);
         //se instancia el punto de escalada en su respectivo holder
@@ -78,15 +79,7 @@ public class Climb : MonoBehaviour
         //enganchar brazos
         ArmsAnimatorBehabior.leftArmAnimator.SetTrigger("Climb");
         ArmsAnimatorBehabior.rightArmAnimator.SetTrigger("Climb");
-        playerCam.transform.LookAt(climbHolder.transform);
-        yield return new WaitForSeconds(0.25f);
-        isLerping = true; 
-        //trepar
-        if (GrappingHook.HookedIntoAnObject) //en el caso de que trepemos gracias al gancho
-        {
-            yield return new WaitForSeconds(0.5f);
-            hookScript.DestroyHook();            
-        }
+        yield return null;
     }
 
     public bool CheckWallNormalForHook()
@@ -112,5 +105,16 @@ public class Climb : MonoBehaviour
             return true;
         }
         return false;
+    }
+
+    public void EventOccured()
+    {
+        isLerping = true;
+        //trepar
+        if (GrappingHook.HookedIntoAnObject) //en el caso de que trepemos gracias al gancho
+        {            
+            hookScript.DestroyHook();
+        }
+        playerCam.transform.LookAt(climbSensor.transform);        
     }
 }

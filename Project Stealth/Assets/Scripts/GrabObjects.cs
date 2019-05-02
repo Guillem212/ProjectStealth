@@ -11,7 +11,7 @@ public class GrabObjects : MonoBehaviour
     [SerializeField] private LayerMask layer;
     [SerializeField] private GameObject rightArm;    
     float throwTemporizer;
-    bool throwRequested;
+    bool throwRequested;    
 
     Vector3 armLocalPosition;
 
@@ -42,7 +42,7 @@ public class GrabObjects : MonoBehaviour
                 //print("raycast OK");                
                 grabbingAnObject = true;
                 objectToGrab = hit.transform.gameObject;
-                objectToGrab.GetComponent<Rigidbody>().useGravity = false; 
+                objectToGrab.GetComponent<Rigidbody>().useGravity = false;                
                 StartCoroutine("IsTrigger");                
                 objectToGrab.transform.parent = Camera.main.transform;
                 ArmsAnimatorBehabior.GrabObjects(1);
@@ -74,7 +74,7 @@ public class GrabObjects : MonoBehaviour
             {
                 throwTemporizer -= Time.deltaTime;
             }
-        }
+        }        
     }
 
     IEnumerator IsTrigger()
@@ -91,5 +91,5 @@ public class GrabObjects : MonoBehaviour
         ArmsAnimatorBehabior.GrabObjects(2);
         throwTemporizer = 0.4f;
         throwRequested = true;        
-    }
+    }    
 }

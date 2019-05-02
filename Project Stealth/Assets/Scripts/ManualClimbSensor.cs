@@ -4,13 +4,7 @@ using UnityEngine;
 
 public class ManualClimbSensor : MonoBehaviour
 {
-    GameObject player;
-
-    // Use this for initialization
-    void Awake()
-    {
-        player = GameObject.Find("Player"); //Cambiar
-    }
+    [SerializeField] GameObject player;
 
     private void OnTriggerEnter(Collider other)
     {        

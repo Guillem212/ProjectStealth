@@ -6,16 +6,17 @@ public class GrabbableObject : MonoBehaviour
 {
     Rigidbody rigidBody;    
     GrabObjects grabScript;
+    [SerializeField] GameObject player;
 
     private void Awake()
     {
         rigidBody = GetComponent<Rigidbody>();
-        grabScript = GameObject.Find("Player").GetComponent<GrabObjects>();
+        grabScript = player.GetComponent<GrabObjects>();
     }    
     
     private void OnTriggerEnter(Collider other)
     {
-        if (grabScript.grabbingAnObject && other.tag != "Player")
+        if (grabScript.grabbingAnObject && other.tag == "Wall")
         {         
             ToTheGround();
         }        
@@ -34,5 +35,6 @@ public class GrabbableObject : MonoBehaviour
         grabScript.grabbingAnObject = false;
         transform.parent = null;
         GetComponent<BoxCollider>().isTrigger = false;
-    }
+    }    
+
 }

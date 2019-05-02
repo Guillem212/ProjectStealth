@@ -10,7 +10,7 @@ public class GrappingHook : MonoBehaviour
     private GameObject hook;
     CharacterController characterController;
     private Vector3 hookDirection;
-
+    public float hookOffset; 
     [SerializeField] private float hookTravelSpeed;
     [SerializeField] private float playerTravelSpeed;
     Climb climbScript;
@@ -30,10 +30,6 @@ public class GrappingHook : MonoBehaviour
 
     void Update()
     {                        
-        if (Input.GetKeyDown(KeyCode.K)) //TEST //////////////
-        {
-            //DEBUG O MIERDAS
-        }
         if (Input.GetButtonDown("ThrowHook") && !PlayerHasFiredTheHook && climbScript.CheckWallNormalForHook()) //checkWallNormal(bool onlyJump) ,en este caso queremos usar el gancho
         {                       
             //llegado a este punto ya tenemos la normal del muro que vamos a trepar
@@ -56,7 +52,7 @@ public class GrappingHook : MonoBehaviour
                     transform.position = Vector3.MoveTowards(transform.position, hook.transform.position, Time.deltaTime * playerTravelSpeed); //desplaza al jugador            
                     float distanceToHook = Vector3.Distance(transform.position, hook.transform.position);
 
-                    if (distanceToHook < 2)
+                    if (distanceToHook < hookOffset)
                     {
                         PlayerHasFiredTheHook = false;
                         climbScript.StartClimbCoroutine();
@@ -69,9 +65,7 @@ public class GrappingHook : MonoBehaviour
                 }
             }
             
-        }
-
-        
+        }        
     }   
 
     public void DestroyHook()

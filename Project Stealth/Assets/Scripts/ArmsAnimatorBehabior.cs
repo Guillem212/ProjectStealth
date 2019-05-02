@@ -100,4 +100,10 @@ public class ArmsAnimatorBehabior : MonoBehaviour
         rightArmCollider.SetActive(state);
         leftArmCollider.SetActive(state);
     }
+
+    public static void ArmsToWall(bool condition)
+    {
+        leftArmAnimator.SetBool("ToWall", condition);
+        rightArmAnimator.SetBool("ToWall", condition);
+    }
 }

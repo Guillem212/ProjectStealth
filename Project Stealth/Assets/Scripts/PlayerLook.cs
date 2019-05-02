@@ -15,7 +15,7 @@ public class PlayerLook : MonoBehaviour
     #region lerping
     Quaternion from;
     Quaternion to;
-    [SerializeField] bool lerping = false;
+    [HideInInspector] public bool lerping = false;
     [SerializeField] float speed = 3f;
     float turningTime = 0f;
     Transform t;
@@ -40,14 +40,14 @@ public class PlayerLook : MonoBehaviour
         //bloquea la rotación mientras se escala o se asoma
         if (!climbScript.isClimbing && !lerping) 
             CameraRotation();    
-        if (Input.GetButton("CrouchRight") && !lerping)
+        if (Input.GetButton("CrouchRight") && !lerping && !PlayerMovement.isWalking)
         {
             lerping = true;
             from = t.rotation;
             to = Quaternion.Euler(new Vector3(t.rotation.eulerAngles.x, t.rotation.eulerAngles.y, -35f));
             turningTime = 0f;
         }
-        else if (Input.GetButton("CrouchLeft") && !lerping)
+        else if (Input.GetButton("CrouchLeft") && !lerping && !PlayerMovement.isWalking)
         {
             lerping = true;
             from = t.rotation;
