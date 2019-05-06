@@ -9,12 +9,14 @@ public class Climb : MonoBehaviour
     public GameObject playerCam;
     [SerializeField] private GameObject climbSpotPrefab;
     [SerializeField] private GameObject climbHolder;
-    [SerializeField] private GameObject climbSensor;
+    [SerializeField] private GameObject climbLooker;
+    [SerializeField] private GameObject hookHolder;
     private GameObject objectToClimb;
     [Space]
     [Header("Parameters")]
     [SerializeField] private float maxClimbDistance;
     [SerializeField] private float i_maxHookingDistance;
+    [SerializeField] private float minHookingDistance;
     public static bool readyToClimb = false;
     [SerializeField] private LayerMask layer;
     public float maxClimbingDistance
@@ -30,7 +32,7 @@ public class Climb : MonoBehaviour
     public static bool isLerping;
     public bool isClimbing { get; private set; }
 
-    Vector3 wallNormal;
+    Vector3 wallNormal;    
     #endregion
 
     // Start is called before the first frame update
@@ -76,6 +78,8 @@ public class Climb : MonoBehaviour
         transform.position = new Vector3(transform.position.x, objectToClimb.transform.position.y, transform.position.z);
         //se instancia el punto de escalada en su respectivo holder
         climbSpot = Instantiate(climbSpotPrefab, climbHolder.transform.position, Camera.main.transform.rotation);
+
+        playerCam.transform.LookAt(climbLooker.transform);
         //enganchar brazos
         ArmsAnimatorBehabior.leftArmAnimator.SetTrigger("Climb");
         ArmsAnimatorBehabior.rightArmAnimator.SetTrigger("Climb");
@@ -84,15 +88,20 @@ public class Climb : MonoBehaviour
 
     public bool CheckWallNormalForHook()
     {
-        RaycastHit hit;        
-        if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.TransformDirection(Vector3.forward), out hit, i_maxHookingDistance, layer)) //si no hemos clicado un objeto enganchable no devuelve vector y no instancia ningun gancho
-        {
+        RaycastHit hit;
+        //si no hemos clicado un objeto enganchable no devuelve vector y no instancia ningun gancho
+        if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.TransformDirection(Vector3.forward), out hit, i_maxHookingDistance, layer) && 
+            (hit.normal != Vector3.up && hit.normal != -Vector3.up)) 
+        {                        
             //rayo de la normal
             wallNormal = hit.normal;
-            objectToClimb = hit.collider.gameObject; //si lanzamos el gancho el hookedObject lo coje el raycast, si escalamos lo coge el climb detector
-            return true;
+            Debug.DrawRay(hit.point, Vector3.up, Color.red, 2f);
+            objectToClimb = hit.collider.gameObject; //si lanzamos el gancho el hookedObject lo coje el raycast, si escalamos lo coge el climb detector            
+            GrappingHook.distanceForHook = Vector3.Distance(hookHolder.transform.position, hit.transform.position);
+            return GrappingHook.distanceForHook > minHookingDistance;
         }
         return false;
+
     }
 
     public bool CheckWallNormalForClimb()
@@ -107,14 +116,13 @@ public class Climb : MonoBehaviour
         return false;
     }
 
-    public void EventOccured()
+    public void EventOccured() //animacion de escalada
     {
         isLerping = true;
         //trepar
         if (GrappingHook.HookedIntoAnObject) //en el caso de que trepemos gracias al gancho
         {            
             hookScript.DestroyHook();
-        }
-        playerCam.transform.LookAt(climbSensor.transform);        
+        }        
     }
 }

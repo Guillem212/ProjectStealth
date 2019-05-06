@@ -140,7 +140,7 @@ MonoBehaviour:
     max: 1
   cascadeShadowSplit1:
     m_OverrideState: 1
-    m_Value: 0.143
+    m_Value: 0.19
     min: 0
     max: 1
   cascadeShadowSplit2:
@@ -210,20 +210,20 @@ MonoBehaviour:
     min: 0
   albedo:
     m_OverrideState: 1
-    m_Value: {r: 0.6415094, g: 0.6415094, b: 0.6415094, a: 1}
+    m_Value: {r: 0.5528213, g: 0.83187336, b: 0.9528302, a: 1}
     hdr: 0
     showAlpha: 1
     showEyeDropper: 1
   meanFreePath:
     m_OverrideState: 1
-    m_Value: 40
+    m_Value: 80
     min: 1
   baseHeight:
-    m_OverrideState: 0
+    m_OverrideState: 1
     m_Value: 0
   meanHeight:
-    m_OverrideState: 0
-    m_Value: 10
+    m_OverrideState: 1
+    m_Value: 13.8
     min: 1
   anisotropy:
     m_OverrideState: 0

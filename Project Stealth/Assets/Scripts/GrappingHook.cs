@@ -6,7 +6,8 @@ public class GrappingHook : MonoBehaviour
 {
     #region variables
     [SerializeField] private GameObject hookPrefab;
-    [SerializeField] private GameObject hookHolder;        
+    [SerializeField] private GameObject hookHolder;
+    [SerializeField] GameObject postProcessing;
     private GameObject hook;
     CharacterController characterController;
     private Vector3 hookDirection;
@@ -19,7 +20,9 @@ public class GrappingHook : MonoBehaviour
     public static bool HookedIntoAnObject; 
 
     private float timer = 0f;
-    private float timerLimit = 0.4f;
+    public float timerLimit = 0.2f;
+    public static float distanceForHook;
+    bool usingPP = false;
     #endregion
 
     void Awake()
@@ -28,9 +31,9 @@ public class GrappingHook : MonoBehaviour
         climbScript = GetComponent<Climb>();
     }
 
-    void Update()
+    void FixedUpdate()
     {                        
-        if (Input.GetButtonDown("ThrowHook") && !PlayerHasFiredTheHook && climbScript.CheckWallNormalForHook()) //checkWallNormal(bool onlyJump) ,en este caso queremos usar el gancho
+        if (Input.GetButtonDown("ThrowHook") && !PlayerHasFiredTheHook && climbScript.CheckWallNormalForHook() && characterController.isGrounded) //checkWallNormal(bool onlyJump) ,en este caso queremos usar el gancho
         {                       
             //llegado a este punto ya tenemos la normal del muro que vamos a trepar
             PlayerHasFiredTheHook = true;
@@ -39,38 +42,42 @@ public class GrappingHook : MonoBehaviour
 
         if (PlayerHasFiredTheHook && !HookedIntoAnObject) //mientars el gancho está en el aire
         {
-            hook.transform.Translate(Vector3.forward * Time.deltaTime * hookTravelSpeed); //desplazamiento            
-            if (Vector3.Distance(transform.position, hook.transform.position) > climbScript.maxClimbingDistance + 1f) DestroyHook(); //temporal para evitar bugs, funciona igual sin el
+            hook.transform.localPosition += hook.transform.forward * Time.deltaTime * hookTravelSpeed;            
+            if (Vector3.Distance(transform.position, hook.transform.position) > distanceForHook + 2f) DestroyHook(); //para evitar bugs
         }
 
         if (HookedIntoAnObject && PlayerHasFiredTheHook) //si se ha enganchado (lo decide HookDetector.cs)
-        {
+        {            
+            if (timer >= timerLimit)
             {
-                if (timer >= timerLimit)
+                if (!usingPP) //efecto de post procesado para el gancho
                 {
-                    timer = timerLimit;
-                    transform.position = Vector3.MoveTowards(transform.position, hook.transform.position, Time.deltaTime * playerTravelSpeed); //desplaza al jugador            
-                    float distanceToHook = Vector3.Distance(transform.position, hook.transform.position);
+                    postProcessing.GetComponent<PPEffects>().HookingEffect(true);
+                    usingPP = true;
+                }
+                timer = timerLimit;
+                transform.position = Vector3.MoveTowards(transform.position, hook.transform.position, Time.deltaTime * playerTravelSpeed); //desplaza al jugador            
+                float distanceToHook = Vector3.Distance(transform.position, hook.transform.position);
 
-                    if (distanceToHook < hookOffset)
-                    {
-                        PlayerHasFiredTheHook = false;
-                        climbScript.StartClimbCoroutine();
-                        timer = 0f; //restart timer
-                    }                    
-                }
-                else
+                if (distanceToHook < hookOffset)
                 {
-                    timer += Time.deltaTime;
-                }
+                    PlayerHasFiredTheHook = false;
+                    climbScript.StartClimbCoroutine();
+                    timer = 0f; //restart timer
+                    usingPP = false;
+                    postProcessing.GetComponent<PPEffects>().HookingEffect(false);
+                }                    
             }
-            
-        }        
+            else
+            {
+                timer += Time.deltaTime;
+            }
+        }              
     }   
 
     public void DestroyHook()
     {
-        Destroy(hook);
+        Destroy(hook);        
         PlayerHasFiredTheHook = false;
         HookedIntoAnObject = false;
     }    

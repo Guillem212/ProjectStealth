@@ -8,8 +8,6 @@ public class PlayerLook : MonoBehaviour
     [SerializeField] private float mouseSensitivity;
     [SerializeField] private Transform playerBody;
     [SerializeField] private GameObject player;
-    private float minPitch = -80f;
-    private float maxPitch = 60f;
     Climb climbScript;
 
     #region lerping

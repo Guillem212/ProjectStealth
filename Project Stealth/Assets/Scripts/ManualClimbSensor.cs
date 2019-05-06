@@ -8,7 +8,7 @@ public class ManualClimbSensor : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {        
-        if (other.tag == "Hookable") 
+        if (other.tag == "Scalable") 
         {
             player.GetComponent<Climb>().setObjectToClimb(other.gameObject);
             Climb.readyToClimb = true;
@@ -17,7 +17,7 @@ public class ManualClimbSensor : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {        
-        if (other.tag == "Hookable")
+        if (other.tag == "Scalable")
         {
             Climb.readyToClimb = false;
         }

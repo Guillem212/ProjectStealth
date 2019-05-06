@@ -9,8 +9,7 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: BrickWall
   m_Shader: {fileID: 4800000, guid: 6e4ae4064600d784cac1e41a9e6f2e59, type: 3}
-  m_ShaderKeywords: _DISPLACEMENT_LOCK_TILING_SCALE _HEIGHTMAP _NORMALMAP _NORMALMAP_TANGENT_SPACE
-    _VERTEX_DISPLACEMENT _VERTEX_DISPLACEMENT_LOCK_OBJECT_SCALE
+  m_ShaderKeywords: _HEIGHTMAP _NORMALMAP _NORMALMAP_TANGENT_SPACE
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -132,7 +131,7 @@ Material:
     - _DiffusionProfile: 0
     - _DisplacementLockObjectScale: 1
     - _DisplacementLockTilingScale: 1
-    - _DisplacementMode: 1
+    - _DisplacementMode: 0
     - _DistortionBlendMode: 0
     - _DistortionBlurBlendMode: 0
     - _DistortionBlurDstBlend: 1
@@ -178,7 +177,7 @@ Material:
     - _MaterialID: 1
     - _Metallic: 0
     - _NormalMapSpace: 0
-    - _NormalScale: 1
+    - _NormalScale: 1.4
     - _PPDLodThreshold: 5
     - _PPDMaxSamples: 15
     - _PPDMinSamples: 5
@@ -204,6 +203,13 @@ Material:
     - _SubsurfaceMask: 1
     - _SupportDecals: 1
     - _SurfaceType: 0
+    - _TessellationBackFaceCullEpsilon: -0.25
+    - _TessellationFactor: 4
+    - _TessellationFactorMaxDistance: 50
+    - _TessellationFactorMinDistance: 20
+    - _TessellationFactorTriangleSize: 100
+    - _TessellationMode: 0
+    - _TessellationShapeFactor: 0.75
     - _TexWorldScale: 1
     - _TexWorldScaleEmissive: 1
     - _Thickness: 1

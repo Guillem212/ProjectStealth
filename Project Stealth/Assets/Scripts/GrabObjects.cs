@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.VFX;
+using UnityEditor.VFX;
 
 public class GrabObjects : MonoBehaviour
 {
@@ -10,13 +12,11 @@ public class GrabObjects : MonoBehaviour
     private GameObject objectToGrab;
     [SerializeField] private LayerMask layer;
     [SerializeField] private GameObject rightArm;    
-    float throwTemporizer;
-    bool throwRequested;    
+    public UnityEngine.Experimental.VFX.VisualEffect forceParticles;
 
     Vector3 armLocalPosition;
 
-    [HideInInspector] public bool grabbingAnObject = false;
-    private bool touched;
+    [HideInInspector] public bool grabbingAnObject = false;    
 
     float GetThrowForce() { return throwForce; }
 
@@ -28,22 +28,16 @@ public class GrabObjects : MonoBehaviour
 
     void Update()
     {
-        /*if (grabbingAnObject)
-        {
-            armLocalPosition = rightArm.transform.localPosition;
-            objectToGrab.transform.position = armLocalPosition;
-        }*/
-        //Debug.DrawRay(Camera.main.transform.position, Camera.main.transform.TransformDirection(Vector3.forward), Color.green,);
         if (Input.GetButtonDown("GrabObject") && !grabbingAnObject)
         {
             RaycastHit hit;
             if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.TransformDirection(Vector3.forward), out hit, minDistance, layer))
-            {
-                //print("raycast OK");                
-                grabbingAnObject = true;
+            {                
+                grabbingAnObject = true;                
                 objectToGrab = hit.transform.gameObject;
+                objectToGrab.GetComponent<GrabbableObject>().ActivateVFX();
                 objectToGrab.GetComponent<Rigidbody>().useGravity = false;                
-                StartCoroutine("IsTrigger");                
+                StartCoroutine("IsTrigger");
                 objectToGrab.transform.parent = Camera.main.transform;
                 ArmsAnimatorBehabior.GrabObjects(1);
             }
@@ -54,27 +48,17 @@ public class GrabObjects : MonoBehaviour
             //print("cargando objeto");
             if (Input.GetButtonDown("ThrowObject")) //click alt -> lanzar
             {
-                ThrowThatWeirdStuff();                                
+                ArmsAnimatorBehabior.GrabObjects(2);
+                DeactivateParticles();
             }
             else if (Input.GetButtonUp("GrabObject"))
             {
                 //print("soltar");
                 ArmsAnimatorBehabior.GrabObjects(0);
                 objectToGrab.GetComponent<GrabbableObject>().ToTheGround();
+                DeactivateParticles();
             }
         }
-        if (throwRequested) //temporizador básico para cuadrar el lanzamiento con la animación
-        {            
-            if (throwTemporizer <= 0)
-            {                
-                objectToGrab.GetComponent<GrabbableObject>().Throw();
-                throwRequested = false;
-            }
-            else
-            {
-                throwTemporizer -= Time.deltaTime;
-            }
-        }        
     }
 
     IEnumerator IsTrigger()
@@ -86,10 +70,13 @@ public class GrabObjects : MonoBehaviour
         objectToGrab.GetComponent<Rigidbody>().useGravity = true;
     }
 
-    private void ThrowThatWeirdStuff()
-    {        
-        ArmsAnimatorBehabior.GrabObjects(2);
-        throwTemporizer = 0.4f;
-        throwRequested = true;        
+    public void ThrowThatWeirdStuff()
+    {                
+        objectToGrab.GetComponent<GrabbableObject>().Throw();
     }    
+
+    public void DeactivateParticles()
+    {        
+        forceParticles.SetFloat("Input", 0f);
+    }
 }

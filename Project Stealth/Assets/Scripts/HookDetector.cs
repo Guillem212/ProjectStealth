@@ -6,9 +6,9 @@ public class HookDetector : MonoBehaviour {
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Hookable")
+        if (other.gameObject.CompareTag("Hook"))
         {
             GrappingHook.HookedIntoAnObject = true;
         }
-    }   
+    }
 }

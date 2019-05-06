@@ -14,10 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   settings:
   - {fileID: 114716649324755562}
-  - {fileID: 114992446637478620}
   - {fileID: 114201944462859496}
   - {fileID: 114397941563332630}
-  - {fileID: 114261331351186418}
+  - {fileID: 114239993494860940}
+  - {fileID: 114430393972116914}
+  - {fileID: 114358754915629884}
+  - {fileID: 114224546213150402}
 --- !u!114 &114201944462859496
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -33,22 +35,22 @@ MonoBehaviour:
   active: 1
   enabled:
     overrideState: 1
-    value: 1
+    value: 0
   mode:
     overrideState: 1
     value: 0
   color:
     overrideState: 1
-    value: {r: 0, g: 0.7630148, b: 1, a: 1}
+    value: {r: 0.17644179, g: 0.40959033, b: 0.6132076, a: 0.43529412}
   center:
     overrideState: 0
     value: {x: 0.5, y: 0.5}
   intensity:
     overrideState: 1
-    value: 0.398
+    value: 0
   smoothness:
     overrideState: 1
-    value: 0.095
+    value: 1
   roundness:
     overrideState: 0
     value: 1
@@ -62,7 +64,7 @@ MonoBehaviour:
   opacity:
     overrideState: 0
     value: 1
---- !u!114 &114261331351186418
+--- !u!114 &114224546213150402
 MonoBehaviour:
   m_ObjectHideFlags: 3
   m_CorrespondingSourceObject: {fileID: 0}
@@ -77,9 +79,9 @@ MonoBehaviour:
   active: 1
   enabled:
     overrideState: 1
-    value: 1
+    value: 0
   gradingMode:
-    overrideState: 1
+    overrideState: 0
     value: 1
   externalLut:
     overrideState: 0
@@ -126,53 +128,53 @@ MonoBehaviour:
     overrideState: 0
     value: 0
   saturation:
-    overrideState: 0
-    value: 0
+    overrideState: 1
+    value: -100
   brightness:
     overrideState: 0
     value: 0
   postExposure:
-    overrideState: 1
-    value: 0.5
+    overrideState: 0
+    value: 0
   contrast:
     overrideState: 0
     value: 0
   mixerRedOutRedIn:
     overrideState: 0
-    value: 125
+    value: -193
   mixerRedOutGreenIn:
     overrideState: 0
-    value: -88
+    value: -200
   mixerRedOutBlueIn:
     overrideState: 0
-    value: -27
+    value: -200
   mixerGreenOutRedIn:
     overrideState: 0
-    value: 0
+    value: -200
   mixerGreenOutGreenIn:
     overrideState: 0
-    value: 100
+    value: -200
   mixerGreenOutBlueIn:
     overrideState: 0
-    value: 0
+    value: -200
   mixerBlueOutRedIn:
     overrideState: 0
-    value: 0
+    value: 200
   mixerBlueOutGreenIn:
     overrideState: 0
-    value: 0
+    value: 200
   mixerBlueOutBlueIn:
     overrideState: 0
-    value: 100
+    value: 200
   lift:
-    overrideState: 1
-    value: {x: 0.64476967, y: 0.66742283, z: 1, w: 0.18957344}
+    overrideState: 0
+    value: {x: 1, y: 1, z: 1, w: 0}
   gamma:
-    overrideState: 1
-    value: {x: 1, y: 0.81445706, z: 0.7587167, w: -0.23019633}
+    overrideState: 0
+    value: {x: 1, y: 1, z: 1, w: 0}
   gain:
-    overrideState: 1
-    value: {x: 0.87306106, y: 0.90684956, z: 1, w: 0.04062289}
+    overrideState: 0
+    value: {x: 1, y: 1, z: 1, w: 0}
   masterCurve:
     overrideState: 0
     value:
@@ -1373,6 +1375,68 @@ MonoBehaviour:
       - 0.5
       - 0.5
       - 0.5
+--- !u!114 &114239993494860940
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b77c5407dc277943b591ade9e6b18c5, type: 3}
+  m_Name: LensDistortion
+  m_EditorClassIdentifier: 
+  active: 1
+  enabled:
+    overrideState: 1
+    value: 0
+  intensity:
+    overrideState: 1
+    value: 0
+  intensityX:
+    overrideState: 0
+    value: 1
+  intensityY:
+    overrideState: 0
+    value: 1
+  centerX:
+    overrideState: 1
+    value: 0
+  centerY:
+    overrideState: 0
+    value: 0
+  scale:
+    overrideState: 0
+    value: 1
+--- !u!114 &114358754915629884
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 556797029e73b2347956b6579e77e05b, type: 3}
+  m_Name: DepthOfField
+  m_EditorClassIdentifier: 
+  active: 1
+  enabled:
+    overrideState: 1
+    value: 0
+  focusDistance:
+    overrideState: 1
+    value: 1.32
+  aperture:
+    overrideState: 0
+    value: 0.1
+  focalLength:
+    overrideState: 0
+    value: 26
+  kernelSize:
+    overrideState: 0
+    value: 1
 --- !u!114 &114397941563332630
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -1388,17 +1452,39 @@ MonoBehaviour:
   active: 1
   enabled:
     overrideState: 1
-    value: 1
+    value: 0
   spectralLut:
     overrideState: 0
     value: {fileID: 0}
     defaultState: 1
   intensity:
     overrideState: 1
-    value: 0.179
+    value: 0
   fastMode:
     overrideState: 1
     value: 1
+--- !u!114 &114430393972116914
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b94fcd11afffcb142908bfcb1e261fba, type: 3}
+  m_Name: MotionBlur
+  m_EditorClassIdentifier: 
+  active: 1
+  enabled:
+    overrideState: 1
+    value: 1
+  shutterAngle:
+    overrideState: 1
+    value: 168
+  sampleCount:
+    overrideState: 0
+    value: 11
 --- !u!114 &114716649324755562
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -1448,31 +1534,3 @@ MonoBehaviour:
   quality:
     overrideState: 0
     value: 2
---- !u!114 &114992446637478620
-MonoBehaviour:
-  m_ObjectHideFlags: 3
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 556797029e73b2347956b6579e77e05b, type: 3}
-  m_Name: DepthOfField
-  m_EditorClassIdentifier: 
-  active: 1
-  enabled:
-    overrideState: 1
-    value: 1
-  focusDistance:
-    overrideState: 1
-    value: 2
-  aperture:
-    overrideState: 0
-    value: 0.1
-  focalLength:
-    overrideState: 1
-    value: 1
-  kernelSize:
-    overrideState: 0
-    value: 1

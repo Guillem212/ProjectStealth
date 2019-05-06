@@ -4,9 +4,10 @@ using UnityEngine;
 
 public class AttachCameraBehaviour : MonoBehaviour
 {
-
     public GameObject attachableCamera;
     private GameObject thisAttachableCamera;
+    public GameObject hookHolder;
+    [SerializeField] GameObject postProcessing;
 
     public GameObject cameraPlayer;
 
@@ -30,15 +31,16 @@ public class AttachCameraBehaviour : MonoBehaviour
     private Vector3 offset;
 
     private void Update()
-    {
+    {        
         if (cameraFixed)
         {
             cameraThrowed = false;
             if (Input.GetButtonDown("ActiveCamera"))
-            {
+            {                
                 //Activa y desactiva la camara.
                 cameraPlayer.SetActive(!cameraPlayer.activeSelf);
                 lookingCamera = !cameraPlayer.activeSelf;
+                postProcessing.GetComponent<PPEffects>().LenDistortion(lookingCamera);
             }
             if (Input.GetButtonDown("ThrowCamera"))
             {
@@ -50,9 +52,10 @@ public class AttachCameraBehaviour : MonoBehaviour
             if (Input.GetButtonDown("ThrowCamera") && !cameraThrowed)
             {
                 //Spawnea y lanza la camara con una fuerza dada.
-                offset = new Vector3(transform.position.x, transform.position.y + 0.5f , transform.position.z);
-                thisAttachableCamera = Instantiate(attachableCamera, offset + Camera.main.transform.TransformDirection(transform.forward), Quaternion.identity);
-                thisAttachableCamera.GetComponent<Rigidbody>().AddForce(Camera.main.transform.TransformDirection(transform.forward) * throwForce);
+                offset = new Vector3(transform.position.x, transform.position.y + 0.5f , transform.position.z);                
+                //thisAttachableCamera = Instantiate(attachableCamera, offset + Camera.main.transform.TransformDirection(transform.forward), Quaternion.identity);
+                thisAttachableCamera = Instantiate(attachableCamera, hookHolder.transform.position, Camera.main.transform.rotation);
+                thisAttachableCamera.GetComponent<Rigidbody>().AddForce(Camera.main.transform.forward * throwForce);
                 cameraThrowed = true;
             }
 
@@ -74,7 +77,7 @@ public class AttachCameraBehaviour : MonoBehaviour
     {
         RaycastHit hit;
 
-        if (Physics.Raycast(transform.position, Camera.main.transform.TransformDirection(Vector3.forward), out hit, 2f, cameraMask))
+        if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.TransformDirection(Vector3.forward), out hit, 4f, cameraMask))
         {
             Destroy(thisAttachableCamera);
             cameraFixed = false;

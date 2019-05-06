@@ -12,9 +12,11 @@ GameObject:
   - component: {fileID: 2789844546143134774}
   - component: {fileID: 2789844546143134775}
   - component: {fileID: 2789844546143134772}
+  - component: {fileID: 8055488830461405229}
+  - component: {fileID: 1010488657}
   m_Layer: 11
   m_Name: HookableObj
-  m_TagString: Hookable
+  m_TagString: Scalable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -28,7 +30,7 @@ Transform:
   m_GameObject: {fileID: 2789844546143134773}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 7.64, y: 4.73, z: 13.42}
-  m_LocalScale: {x: 12.965704, y: 0.50851, z: 0.02960474}
+  m_LocalScale: {x: 3.62651, y: 0.50851, z: 0.47276998}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -58,7 +60,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: f5a2ebe66cc797847b4e73544ce2c661, type: 2}
+  - {fileID: 2100000, guid: 8e7591b0d6e54b04185a26fa4925ef7f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -86,8 +88,36 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2789844546143134773}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1.1231306, z: 0}
-  m_Center: {x: -7.817942e-18, y: -0.005639415, z: 0.16012782}
+  m_Size: {x: 1, y: 1.122011, z: 1.2028493}
+  m_Center: {x: 0.0000030879862, y: -0.00508077, z: -0.016150948}
+--- !u!114 &8055488830461405229
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2789844546143134773}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa4fcc64adf49c54f8a9578f076eea68, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!54 &1010488657
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2789844546143134773}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 3

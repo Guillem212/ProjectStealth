@@ -4,48 +4,41 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    [SerializeField] private float speed = 5.0f;
-    private float initialSpeed = 5.0f;
-    [SerializeField] private float gravity = 20.0f;
+    [Header("GameObjects")]
     [SerializeField] GameObject hookHolder;
     [SerializeField] GameObject playerCam;
-    ArmsAnimatorBehabior armsAnim;
-
-    //jump
-    private bool isJumping;
+    [SerializeField] GameObject postProcessing;
+    public GameObject virtualCamera;
+    public GameObject playerModel;
+    [Space]
+    [Header("Parameters")]
+    [SerializeField] private float speed = 5.0f;
+    [SerializeField] private float gravity = 20.0f;
     [SerializeField] private AnimationCurve jumpFallOff;
     [SerializeField] private float jumpMultiplier;    
+    public static bool isWalking = false;
+
+    private float initialSpeed = 5.0f;
+    ArmsAnimatorBehabior armsAnim;
+
+    //states
+    private bool isJumping;
+    private bool crouched;
 
     private Vector3 moveDirection = Vector3.zero;
     private CharacterController controller;
     private Climb climbScript;
     private PlayerLook pl;
 
-
-    public float SpeedH = 10f;
-    public float SpeedV = 10f;
-    public static bool isWalking = false;
-
-    private float yaw = 0f;
-    private float pitch = 0f;
-    private float minPitch = -80f;
-    private float maxPitch = 60f;
-
-    public GameObject virtualCamera;
-    public GameObject playerModel;
-
-    private bool crouched;
-
     Vector3 forwardMovement;
     Vector3 rightMovement;
-
 
     void Start()
     {
         controller = GetComponent<CharacterController>();
         armsAnim = GetComponent<ArmsAnimatorBehabior>();
         climbScript = GetComponent<Climb>();
-        pl = playerCam.GetComponent<PlayerLook>();
+        pl = playerCam.GetComponent<PlayerLook>(); //BORRAR?
 
         Cursor.lockState = CursorLockMode.Locked;
         Crouch();
@@ -115,13 +108,14 @@ public class PlayerMovement : MonoBehaviour
         //saca las manos
         armsAnim.ShowHands(true);
         controller.height = 0.8f;
+        postProcessing.GetComponent<PPEffects>().SetVignetteLayer(true);
     }
 
     void StandUp()
     {
         //desactiva los colliders de los brazos para evitar triggers innecesarios
         armsAnim.ShowHands(false);
-
+        postProcessing.GetComponent<PPEffects>().SetVignetteLayer(false);
         controller.height = 2f;
     }
 
