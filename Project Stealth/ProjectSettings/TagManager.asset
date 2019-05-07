@@ -9,6 +9,7 @@ TagManager:
   - Hookable
   - Grabbable
   - Scalable
+  - Enemy
   layers:
   - Default
   - TransparentFX
@@ -23,7 +24,7 @@ TagManager:
   - Grabbable
   - Hookable
   - Arms
-  - 
+  - Enemy
   - 
   - 
   - 
