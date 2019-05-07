@@ -23,7 +23,7 @@ public class PPEffects : MonoBehaviour
     bool hookingState = false;
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         volume = GetComponent<PostProcessVolume>();        
 
@@ -36,7 +36,7 @@ public class PPEffects : MonoBehaviour
         volume.profile.TryGetSettings<DepthOfField>(out depthOfFieldLayer);
         volume.profile.TryGetSettings<ColorGrading>(out colorGradingLayer);
 
-        chromaticAberrationLayer.enabled.value = false;
+        chromaticAberrationLayer.enabled.value = true;
         vignetteLayer.enabled.value = false;
         lensDistortionLayer.enabled.value = false;
         motionBlurLayer.enabled.value = false;
@@ -111,6 +111,13 @@ public class PPEffects : MonoBehaviour
         {           
             lensDistortionLayer.intensity.value = 0f;
         }
+    }
+
+    public void SetOverLife(float lifeAmountNormalized)
+    {        
+        chromaticAberrationLayer.intensity.value = 1 - lifeAmountNormalized;
+        //lensDistortionLayer.intensity.value = Mathf.Clamp(lifeAmountNormalized, -50f, 0f);
+        //lifeAmount = Mathf.Clamp(lifeAmount, 0f, LIFE_MAX);
     }
     
     //herido -> LensDistortion = -15 && ChromaticAberration = 1

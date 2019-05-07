@@ -10,7 +10,7 @@ public class StealthBehaviour : MonoBehaviour
 
     private CharacterController charController;
 
-    private float amountOfSound = 0.5f;
+    public static float amountOfSound = 0.5f;
     private float velocityOfPlayer = 0;
 
 
