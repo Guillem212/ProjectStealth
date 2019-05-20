@@ -5,15 +5,7 @@ using UnityEngine.AI;
 using UnityEngine.UI;
 
 
-public enum EnemyState
-{
-    PATROL,
-    SEARCHING,
-    ATTACKING
-}
-
-
-public class PatrolEnemyAI : MonoBehaviour
+public class StaticEnemyAI : MonoBehaviour
 {
 
 
@@ -39,8 +31,6 @@ public class PatrolEnemyAI : MonoBehaviour
 
     public Sprite imageStart;
 
-    private Transform[] patrolPoints;
-    public GameObject waypointEnemy;
     private int actualPoint = 0;
 
     public Light spot;
@@ -53,9 +43,9 @@ public class PatrolEnemyAI : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         enemyState = EnemyState.PATROL;
         image = GetComponentInChildren<Image>();
+
         playerPostion = GameObject.FindGameObjectWithTag("Player").gameObject;
 
-        patrolPoints = waypointEnemy.GetComponentsInChildren<Transform>();
         actualPoint = 0;
 
         agent.stoppingDistance = 0;
@@ -81,14 +71,6 @@ public class PatrolEnemyAI : MonoBehaviour
         else
         {
             spot.colorTemperature = 20000;
-            if (agent.remainingDistance <= agent.stoppingDistance)
-                actualPoint++;
-
-            if (actualPoint > patrolPoints.Length - 1)
-                actualPoint = 0;
-
-            agent.SetDestination(patrolPoints[actualPoint].position);
-
         }
     }
 

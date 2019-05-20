@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyShoot : MonoBehaviour
+public class EnemyShootStatic : MonoBehaviour
 {
-    private PatrolEnemyAI patrolAI;
+    private StaticEnemyAI staticAI;
     public LayerMask playerLayer;
 
     public PlayerAttributes playerAtt;
@@ -14,7 +14,7 @@ public class EnemyShoot : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        patrolAI = GetComponent<PatrolEnemyAI>();
+        staticAI = GetComponent<StaticEnemyAI>();
     }
 
     // Update is called once per frame
@@ -25,10 +25,10 @@ public class EnemyShoot : MonoBehaviour
 
     private void shoot()
     {
-        if((patrolAI.agent.remainingDistance <= patrolAI.agent.stoppingDistance || !patrolAI.agent.hasPath)
-            && patrolAI.getEnemyState() == EnemyState.ATTACKING)
+        if((staticAI.agent.remainingDistance <= staticAI.agent.stoppingDistance || !staticAI.agent.hasPath)
+            && staticAI.getEnemyState() == EnemyState.ATTACKING)
         {
-            transform.LookAt(patrolAI.playerPostion.transform.position);
+            transform.LookAt(staticAI.playerPostion.transform.position);
 
             if (timer > 0)
             {

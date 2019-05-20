@@ -69,5 +69,14 @@ public class StealthBehaviour : MonoBehaviour
                 other.gameObject.GetComponent<PatrolEnemyAI>().setEnemyState(EnemyState.ATTACKING);
             }*/
         }
+        else if (other.CompareTag("EnemyStatic"))
+        {
+            if (other.gameObject.GetComponent<StaticEnemyAI>().getEnemyState() == EnemyState.PATROL)
+            {
+                lastpositionKnown = transform.position;
+                other.gameObject.GetComponent<StaticEnemyAI>().setEnemyState(EnemyState.SEARCHING);
+                other.gameObject.GetComponent<StaticEnemyAI>().agent.stoppingDistance = 2;
+            }
+        }
     }
 }
