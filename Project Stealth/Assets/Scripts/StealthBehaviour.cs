@@ -33,7 +33,7 @@ public class StealthBehaviour : MonoBehaviour
 
     private void updateCollider()
     {
-        velocityOfPlayer = (charController.velocity.x + charController.velocity.z) * 2 ;
+        velocityOfPlayer = (Mathf.Abs(charController.velocity.x) + Mathf.Abs(charController.velocity.z)) * 2 ;
 
         if (velocityOfPlayer != 0)
         {
@@ -58,16 +58,16 @@ public class StealthBehaviour : MonoBehaviour
     {
         if (other.CompareTag("Enemy"))
         {
-            if (other.gameObject.GetComponent<PatrolEnemyAI>().enemyState == EnemyState.PATROL)
+            if (other.gameObject.GetComponent<PatrolEnemyAI>().getEnemyState() == EnemyState.PATROL)
             {
                 lastpositionKnown = transform.position;
-                other.gameObject.GetComponent<PatrolEnemyAI>().enemyState = EnemyState.SEARCHING;
+                other.gameObject.GetComponent<PatrolEnemyAI>().setEnemyState(EnemyState.SEARCHING);
+                other.gameObject.GetComponent<PatrolEnemyAI>().agent.stoppingDistance = 2;
             }
-            else if (other.gameObject.GetComponent<PatrolEnemyAI>().enemyState == EnemyState.SEARCHING)
+            /*else if (other.gameObject.GetComponent<PatrolEnemyAI>().getEnemyState() == EnemyState.SEARCHING)
             {
-                other.gameObject.GetComponent<PatrolEnemyAI>().enemyState = EnemyState.ATTACKING;
-                //Aqui va el ataque
-            }
+                other.gameObject.GetComponent<PatrolEnemyAI>().setEnemyState(EnemyState.ATTACKING);
+            }*/
         }
     }
 }

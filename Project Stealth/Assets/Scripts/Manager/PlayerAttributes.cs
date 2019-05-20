@@ -7,7 +7,7 @@ public class PlayerAttributes : MonoBehaviour
 {
     private Image lifeBarImage;
     private Image soundBarImage;
-    private Life life;
+    public Life life;
     [SerializeField] Transform lifeBar;
     [SerializeField] Transform soundBar;
     PPEffects postProcess;

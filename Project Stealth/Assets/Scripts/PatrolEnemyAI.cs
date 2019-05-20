@@ -17,14 +17,35 @@ public class PatrolEnemyAI : MonoBehaviour
 {
 
 
-    public EnemyState enemyState;
-    private NavMeshAgent agent;
-    private Vector3 positionPlayer;
-    public Image image;
+    [HideInInspector]
+    public static EnemyState enemyState;
 
-    private Vector3 playerPos;
+    public  EnemyState getEnemyState()
+    {
+        return enemyState;
+    }
+
+    public void setEnemyState(EnemyState state)
+    {
+        enemyState = state;
+    }
+
+    public NavMeshAgent agent;
+
+    [HideInInspector]
+    public GameObject playerPostion;
+    
+    private Image image;
 
     public Sprite imageStart;
+
+    private Transform[] patrolPoints;
+    public GameObject waypointEnemy;
+    private int actualPoint = 0;
+
+    public Light spot;
+
+    private bool enemyShooting = false;
 
     // Start is called before the first frame update
     void Start()
@@ -32,6 +53,13 @@ public class PatrolEnemyAI : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         enemyState = EnemyState.PATROL;
         image = GetComponentInChildren<Image>();
+        playerPostion = GameObject.FindGameObjectWithTag("Player").gameObject;
+
+        patrolPoints = waypointEnemy.GetComponentsInChildren<Transform>();
+        actualPoint = 0;
+
+        agent.stoppingDistance = 0;
+        spot.colorTemperature = 20000;
     }
 
     // Update is called once per frame
@@ -39,13 +67,28 @@ public class PatrolEnemyAI : MonoBehaviour
     {
         if(enemyState == EnemyState.SEARCHING)
         {
-            /*positionPlayer = Vector3.Lerp(transform.position, StealthBehaviour.lastpositionKnown, Time.deltaTime);
-            transform.LookAt(positionPlayer);*/
+            spot.colorTemperature = 3000;
             StartCoroutine(goToPosition());
         }
         else if(enemyState == EnemyState.ATTACKING)
         {
-            agent.SetDestination(playerPos);
+            agent.SetDestination(playerPostion.transform.position);
+            spot.colorTemperature = 1000;
+            agent.stoppingDistance = 6;
+            //shoot();
+         
+        }
+        else
+        {
+            spot.colorTemperature = 20000;
+            if (agent.remainingDistance <= agent.stoppingDistance)
+                actualPoint++;
+
+            if (actualPoint > patrolPoints.Length - 1)
+                actualPoint = 0;
+
+            agent.SetDestination(patrolPoints[actualPoint].position);
+
         }
     }
 
@@ -54,15 +97,6 @@ public class PatrolEnemyAI : MonoBehaviour
         image.sprite = imageStart;
         yield return new WaitForSeconds(1f);
         agent.SetDestination(StealthBehaviour.lastpositionKnown);
-    }
-
-    private void OnTriggerStay(Collider other)
-    {
-        if (other.CompareTag("Player"))
-        {
-            playerPos = other.transform.position;
-            enemyState = EnemyState.ATTACKING;
-        }
     }
 
 }
