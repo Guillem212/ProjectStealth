@@ -11,6 +11,9 @@ public class EnemyShoot : MonoBehaviour
 
     private float timer = 0.5f;
 
+    public GameObject leftShoot;
+    public GameObject rightShoot;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -37,18 +40,26 @@ public class EnemyShoot : MonoBehaviour
                 {
                     if (hit.collider.CompareTag("Player"))
                     {
-                        //Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * 1000, Color.red);
+                        Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * 1000, Color.red);
                         playerAtt.life.TrySpendLife(0.5f);
 
                     }
-                        //Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * hit.distance, Color.yellow);
+                    else
+                        Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * 1000, Color.yellow);
                 }
+
+                rightShoot.SetActive(true);
+                leftShoot.SetActive(true);
+
 
                 timer -= Time.deltaTime;
             }
             else
             {
-                timer = 0.5f;
+
+                rightShoot.SetActive(false);
+                leftShoot.SetActive(false);
+                timer = .1f;
             }
         }
         

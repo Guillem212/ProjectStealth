@@ -7,6 +7,8 @@ public class TriggerDetectionStatic : MonoBehaviour
     public float timeToStop = 3f;
     public StaticEnemyAI staticAI;
 
+    public Animator anim;
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
@@ -14,6 +16,7 @@ public class TriggerDetectionStatic : MonoBehaviour
             if (staticAI.enemyState != EnemyState.ATTACKING)
             {
                 staticAI.enemyState = EnemyState.ATTACKING;
+                anim.SetTrigger("IsAttacking");
 
             }
         }

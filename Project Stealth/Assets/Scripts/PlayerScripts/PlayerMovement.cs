@@ -23,7 +23,7 @@ public class PlayerMovement : MonoBehaviour
 
     //states
     private bool isJumping;
-    private bool crouched;
+    public static bool crouched;
 
     private Vector3 moveDirection = Vector3.zero;
     private CharacterController controller;

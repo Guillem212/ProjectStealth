@@ -12,7 +12,6 @@ public class TurretEnemyAI : MonoBehaviour
     [HideInInspector]
     private EnemyState enemyState;
 
-    [HideInInspector]
     public GameObject playerPostion;
 
     public Light spot;
@@ -26,6 +25,9 @@ public class TurretEnemyAI : MonoBehaviour
     private float timer = 0.5f;
 
     private bool rotatingRight = true;
+
+    public GameObject leftShoot;
+    public GameObject rightShoot;
 
     // Start is called before the first frame update
     void Start()
@@ -58,36 +60,42 @@ public class TurretEnemyAI : MonoBehaviour
             {
                 rotatingRight = true;
             }
-            print(transform.eulerAngles.y);
 
         }
         else if(enemyState == EnemyState.ATTACKING)
         {
             spot.colorTemperature = 1000;
+            shoot();
 
-            transform.LookAt(playerPostion.transform.position);
+        }
+    }
 
-            if (timer > 0)
+    private void shoot()
+    {
+        transform.LookAt(playerPostion.transform.position);
+
+        if (timer > 0)
+        {
+            RaycastHit hit;
+            if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, Mathf.Infinity))
             {
-                RaycastHit hit;
-                if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, Mathf.Infinity))
+                if (hit.collider.CompareTag("Player"))
                 {
-                    if (hit.collider.CompareTag("Player"))
-                    {
-                        //Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * 1000, Color.red);
-                        playerAtt.life.TrySpendLife(0.5f);
+                    playerAtt.life.TrySpendLife(0.5f);
 
-                    }
-                    //Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * hit.distance, Color.yellow);
                 }
-
-                timer -= Time.deltaTime;
-            }
-            else
-            {
-                timer = 0.5f;
             }
 
+            rightShoot.SetActive(true);
+            leftShoot.SetActive(true);
+
+            timer -= Time.deltaTime;
+        }
+        else
+        {
+            timer = 0.5f;
+            rightShoot.SetActive(false);
+            leftShoot.SetActive(false);
         }
     }
 

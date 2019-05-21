@@ -44,7 +44,7 @@ public class StealthBehaviour : MonoBehaviour
            amountOfSound = 0.5f;
         }
 
-        if (charController.isGrounded && !wasGrounded)
+        if (charController.isGrounded && !wasGrounded && !PlayerMovement.crouched)
         {
             amountOfSound += 100;
         }
@@ -64,10 +64,6 @@ public class StealthBehaviour : MonoBehaviour
                 other.gameObject.GetComponent<PatrolEnemyAI>().setEnemyState(EnemyState.SEARCHING);
                 other.gameObject.GetComponent<PatrolEnemyAI>().agent.stoppingDistance = 2;
             }
-            /*else if (other.gameObject.GetComponent<PatrolEnemyAI>().getEnemyState() == EnemyState.SEARCHING)
-            {
-                other.gameObject.GetComponent<PatrolEnemyAI>().setEnemyState(EnemyState.ATTACKING);
-            }*/
         }
         else if (other.CompareTag("EnemyStatic"))
         {
