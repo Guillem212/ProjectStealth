@@ -63,7 +63,7 @@ public class EnemyShootStatic : MonoBehaviour
         {
             particles[i].Play();
         }
-        playerAtt.life.TrySpendLife(0.5f);
+        playerAtt.life.TrySpendLife(10f);
         isShooting = false;
     }
 }

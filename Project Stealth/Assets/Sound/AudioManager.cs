@@ -21,7 +21,8 @@ public class AudioManager : MonoBehaviour {
 			instance = this;
 		else {
 			Destroy (gameObject);
-            GameObject.Find("Options").SetActive(false);
+            if (GameManager.GetCurrentScene() == 0)
+                GameObject.Find("Options").SetActive(false);
 			return;
 		}
 

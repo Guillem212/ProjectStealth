@@ -51,4 +51,6 @@ public class GameManager : MonoBehaviour
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
+
+    public static int GetCurrentScene() { return SceneManager.GetActiveScene().buildIndex; }
 }
