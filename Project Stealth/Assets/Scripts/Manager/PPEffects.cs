@@ -18,6 +18,9 @@ public class PPEffects : MonoBehaviour
     MotionBlur motionBlurLayer = null;
     DepthOfField depthOfFieldLayer = null;
     ColorGrading colorGradingLayer = null;
+    Bloom bloomLayer = null;
+
+    SettingsManager setting;    
     
     bool vignetteState = false;
     bool hookingState = false;
@@ -25,25 +28,29 @@ public class PPEffects : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
-        volume = GetComponent<PostProcessVolume>();        
+        volume = GetComponent<PostProcessVolume>();
+        setting = GameObject.Find("SoundAndSettingsManager").GetComponent<SettingsManager>();
 
         volume.profile.TryGetSettings<AmbientOcclusion>(out ambientOcclusionLayer);
         volume.profile.TryGetSettings<Vignette>(out vignetteLayer);
         volume.profile.TryGetSettings<ChromaticAberration>(out chromaticAberrationLayer);
         volume.profile.TryGetSettings<LensDistortion>(out lensDistortionLayer);
-        volume.profile.TryGetSettings<MotionBlur>(out motionBlurLayer);
-        volume.profile.TryGetSettings<MotionBlur>(out motionBlurLayer);
+        volume.profile.TryGetSettings<MotionBlur>(out motionBlurLayer);        
         volume.profile.TryGetSettings<DepthOfField>(out depthOfFieldLayer);
         volume.profile.TryGetSettings<ColorGrading>(out colorGradingLayer);
+        volume.profile.TryGetSettings<Bloom>(out bloomLayer);
+
+        motionBlurLayer.enabled.value = setting.motionBlurSetting;
+        ambientOcclusionLayer.enabled.value = setting.ambientOclussionSetting;
+        bloomLayer.enabled.value = setting.bloomSetting;
 
         chromaticAberrationLayer.enabled.value = true;
         vignetteLayer.enabled.value = false;
         lensDistortionLayer.enabled.value = false;
-        motionBlurLayer.enabled.value = false;
         depthOfFieldLayer.enabled.value = false;
         colorGradingLayer.enabled.value = false;
 
-    }
+    }    
 
     // Update is called once per frame
     void Update()

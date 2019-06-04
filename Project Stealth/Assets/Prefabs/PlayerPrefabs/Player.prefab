@@ -119,7 +119,7 @@ GameObject:
   - component: {fileID: 800711279}
   m_Layer: 0
   m_Name: ClimbAndCamera
-  m_TagString: Untagged
+  m_TagString: Detector
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -299,7 +299,7 @@ GameObject:
   - component: {fileID: 1616380978}
   m_Layer: 0
   m_Name: DetectorCollider
-  m_TagString: Untagged
+  m_TagString: Detector
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -441,7 +441,7 @@ GameObject:
   - component: {fileID: 3662375181008684528}
   m_Layer: 0
   m_Name: ClimbSensor
-  m_TagString: Untagged
+  m_TagString: Detector
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -793,7 +793,7 @@ MonoBehaviour:
     FieldOfView: 70
     OrthographicSize: 10
     NearClipPlane: 0.01
-    FarClipPlane: 1000
+    FarClipPlane: 270
     Dutch: 0
     LensShift: {x: 0, y: 0}
   m_Transitions:

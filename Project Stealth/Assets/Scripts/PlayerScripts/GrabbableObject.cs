@@ -21,8 +21,9 @@ public class GrabbableObject : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (grabScript.grabbingAnObject && !gameObject.CompareTag("Player"))
+        if (grabScript.grabbingAnObject && !other.CompareTag("Player") && !other.CompareTag("Detector"))
         {
+            print("collided with :" + other.name);
             ToTheGround();
         }
     }

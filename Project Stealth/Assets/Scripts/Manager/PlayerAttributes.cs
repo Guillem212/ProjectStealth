@@ -22,7 +22,7 @@ public class PlayerAttributes : MonoBehaviour
     public float values = 0.5f;
 
     private void Awake()
-    {
+    {        
         lifeBarImage = lifeBar.GetComponent<Image>();
         soundBarImage = soundBar.GetComponent<RawImage>();
         barMaskRectTransform = soundBarMask.GetComponent<RectTransform>();

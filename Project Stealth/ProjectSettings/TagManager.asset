@@ -12,6 +12,7 @@ TagManager:
   - Enemy
   - EnemyStatic
   - EnemyTurret
+  - Detector
   layers:
   - Default
   - TransparentFX
