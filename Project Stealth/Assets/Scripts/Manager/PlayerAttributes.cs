@@ -72,7 +72,7 @@ public class PlayerAttributes : MonoBehaviour
         }
 
         public void Update()
-        {           
+        {            
             if (lifeRegenDelay <= 0f)
             {
                 lifeAmount += lifeRegenAmount * Time.deltaTime;
@@ -80,13 +80,18 @@ public class PlayerAttributes : MonoBehaviour
             else
             {
                 lifeRegenDelay -= Time.deltaTime;
-            }            
+            }
+            if (lifeAmount <= 0f)
+            {
+                FindObjectOfType<PauseManager>().EndScreen(); //lanza la pantalla final                
+            }
             lifeAmount = Mathf.Clamp(lifeAmount, 0f, LIFE_MAX);
+            
         }
 
         public void TrySpendLife(float amount)
         {
-            if (lifeAmount >= amount) lifeAmount -= amount;
+            lifeAmount -= amount;
             lifeRegenDelay = lifeRegenDelayOriginalValue;
         }
 

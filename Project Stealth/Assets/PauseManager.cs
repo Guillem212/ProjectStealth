@@ -52,7 +52,7 @@ public class PauseManager : MonoBehaviour
         Cursor.visible = true;
     }
 
-    void EndScreen()
+    public void EndScreen()
     {
         endMenuUI.SetActive(true);
         Time.timeScale = 0f;        
