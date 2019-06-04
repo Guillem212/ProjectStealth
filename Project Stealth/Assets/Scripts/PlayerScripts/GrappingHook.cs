@@ -34,7 +34,8 @@ public class GrappingHook : MonoBehaviour
     void FixedUpdate()
     {                        
         if (Input.GetButtonDown("ThrowHook") && !PlayerHasFiredTheHook && climbScript.CheckWallNormalForHook() && characterController.isGrounded) //checkWallNormal(bool onlyJump) ,en este caso queremos usar el gancho
-        {                       
+        {
+            FindObjectOfType<AudioManager>().Play("throwHook");
             //llegado a este punto ya tenemos la normal del muro que vamos a trepar
             PlayerHasFiredTheHook = true;
             hook = Instantiate(hookPrefab, hookHolder.transform.position, Camera.main.transform.rotation); //se instancia el gancho en la dirección de la cámara            
@@ -47,7 +48,8 @@ public class GrappingHook : MonoBehaviour
         }
 
         if (HookedIntoAnObject && PlayerHasFiredTheHook) //si se ha enganchado (lo decide HookDetector.cs)
-        {            
+        {
+            FindObjectOfType<AudioManager>().Play("winch");
             if (timer >= timerLimit)
             {
                 if (!usingPP) //efecto de post procesado para el gancho
@@ -61,6 +63,7 @@ public class GrappingHook : MonoBehaviour
 
                 if (distanceToHook < hookOffset)
                 {
+                    FindObjectOfType<AudioManager>().Stop("winch");
                     PlayerHasFiredTheHook = false;
                     climbScript.StartClimbCoroutine();
                     timer = 0f; //restart timer

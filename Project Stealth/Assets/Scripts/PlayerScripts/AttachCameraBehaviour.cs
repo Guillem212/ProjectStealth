@@ -41,6 +41,14 @@ public class AttachCameraBehaviour : MonoBehaviour
                 cameraPlayer.SetActive(!cameraPlayer.activeSelf);
                 lookingCamera = !cameraPlayer.activeSelf;
                 postProcessing.GetComponent<PPEffects>().LenDistortion(lookingCamera);
+                if (lookingCamera)
+                {
+                    FindObjectOfType<AudioManager>().Play("static");
+                }
+                else
+                {
+                    FindObjectOfType<AudioManager>().Stop("static");
+                }
             }
             if (Input.GetButtonDown("ThrowCamera"))
             {
@@ -49,8 +57,9 @@ public class AttachCameraBehaviour : MonoBehaviour
         }
         else
         {
-            if (Input.GetButtonDown("ThrowCamera") && !cameraThrowed)
+            if (Input.GetButtonDown("ThrowCamera") && !cameraThrowed && !PauseManager.gameIsPaused && !PauseManager.gameIsFinished)
             {
+                FindObjectOfType<AudioManager>().Play("throwHook");
                 //Spawnea y lanza la camara con una fuerza dada.
                 offset = new Vector3(transform.position.x, transform.position.y + 0.5f , transform.position.z);                
                 //thisAttachableCamera = Instantiate(attachableCamera, offset + Camera.main.transform.TransformDirection(transform.forward), Quaternion.identity);

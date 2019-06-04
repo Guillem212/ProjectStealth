@@ -9,6 +9,7 @@ public class HookDetector : MonoBehaviour {
         if (other.gameObject.CompareTag("Hook"))
         {
             GrappingHook.HookedIntoAnObject = true;
+            FindObjectOfType<AudioManager>().Play("hookHit");
         }
     }
 }

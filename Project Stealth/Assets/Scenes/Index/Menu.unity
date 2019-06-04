@@ -263,6 +263,48 @@ MonoBehaviour:
     pitch: 1
     loop: 0
     source: {fileID: 0}
+  - name: forceField
+    clip: {fileID: 8300000, guid: 3c3bf5dd01dbaf54c8818dce1cc95756, type: 3}
+    volume: 0.9
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: winch
+    clip: {fileID: 8300000, guid: 4c9939925ab5d5d418c8b84d04658815, type: 3}
+    volume: 0.563
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: throwHook
+    clip: {fileID: 8300000, guid: 0e8c5d37bc160a0448b726e1b10d287f, type: 3}
+    volume: 0.661
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: throwObject
+    clip: {fileID: 8300000, guid: 0f11b846d80e769408184319b0e91d07, type: 3}
+    volume: 0.276
+    pitch: 1.5
+    loop: 0
+    source: {fileID: 0}
+  - name: hookHit
+    clip: {fileID: 8300000, guid: 88c36cb5a35559e4bb2124fa3f1af68d, type: 3}
+    volume: 0.7
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: jetStart
+    clip: {fileID: 8300000, guid: 95db43b9bec8423438f8559b167c6d52, type: 3}
+    volume: 0.886
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: static
+    clip: {fileID: 8300000, guid: 3b231f590c8e899429638874877da792, type: 3}
+    volume: 0.82
+    pitch: 1
+    loop: 1
+    source: {fileID: 0}
   audioMixerMaster: {fileID: 24300002, guid: 8c2925b816b40fa43a4e5dbd429778d5, type: 2}
   audioMixer: {fileID: 24100000, guid: 8c2925b816b40fa43a4e5dbd429778d5, type: 2}
 --- !u!1 &87193167

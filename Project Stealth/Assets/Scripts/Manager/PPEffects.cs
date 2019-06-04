@@ -7,16 +7,16 @@ public class PPEffects : MonoBehaviour
 {
 
     PostProcessVolume volume;
+    ChromaticAberration chromaticAberrationLayer = null;
+    LensDistortion lensDistortionLayer = null;
+    MotionBlur motionBlurLayer = null;
+    DepthOfField depthOfFieldLayer = null;
     //PostProcessProfile profile;
 
     //Bloom bloomLayer = null;
     //ColorGrading colorGradingLayer = null;
     AmbientOcclusion ambientOcclusionLayer = null;
     Vignette vignetteLayer = null;
-    ChromaticAberration chromaticAberrationLayer = null;
-    LensDistortion lensDistortionLayer = null;
-    MotionBlur motionBlurLayer = null;
-    DepthOfField depthOfFieldLayer = null;
     ColorGrading colorGradingLayer = null;
     Bloom bloomLayer = null;
 
@@ -24,6 +24,8 @@ public class PPEffects : MonoBehaviour
     
     bool vignetteState = false;
     bool hookingState = false;
+
+    bool usingCamera = false;
 
     // Start is called before the first frame update
     void Awake()
@@ -47,8 +49,7 @@ public class PPEffects : MonoBehaviour
         chromaticAberrationLayer.enabled.value = true;
         vignetteLayer.enabled.value = false;
         lensDistortionLayer.enabled.value = false;
-        depthOfFieldLayer.enabled.value = false;
-        colorGradingLayer.enabled.value = false;
+        depthOfFieldLayer.enabled.value = false;        
 
     }    
 
@@ -108,24 +109,27 @@ public class PPEffects : MonoBehaviour
 
     public void LenDistortion(bool state)
     {
-        colorGradingLayer.enabled.value = state;
+        //colorGradingLayer.enabled.value = state;
         lensDistortionLayer.enabled.value = state;
         if (state)
-        {            
-            lensDistortionLayer.intensity.value = 40f;            
+        {
+            usingCamera = true;
+            lensDistortionLayer.intensity.value = 40f;
+            colorGradingLayer.saturation.value = -100f;
         }
         else
-        {           
+        {
+            usingCamera = false;
             lensDistortionLayer.intensity.value = 0f;
         }
     }
 
     public void SetOverLife(float lifeAmountNormalized)
     {        
-        chromaticAberrationLayer.intensity.value = 1 - lifeAmountNormalized;
-        //lensDistortionLayer.intensity.value = Mathf.Clamp(lifeAmountNormalized, -50f, 0f);
-        //lifeAmount = Mathf.Clamp(lifeAmount, 0f, LIFE_MAX);
-    }
-    
-    //herido -> LensDistortion = -15 && ChromaticAberration = 1
+        if (!usingCamera)
+        {
+            chromaticAberrationLayer.intensity.value = 1 - lifeAmountNormalized;
+            colorGradingLayer.saturation.value = -100 + lifeAmountNormalized * 100;
+        }                
+    }    
 }

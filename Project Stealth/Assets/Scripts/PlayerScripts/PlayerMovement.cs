@@ -21,6 +21,8 @@ public class PlayerMovement : MonoBehaviour
     private float initialSpeed = 5.0f;
     ArmsAnimatorBehabior armsAnim;
 
+    public static bool allowedToMove = true;
+
     //states
     private bool isJumping;
     public static bool crouched;
@@ -47,7 +49,7 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {        
         crouched = ArmsAnimatorBehabior.rightArmAnimator.GetBool("Crouched"); //mejor si se guarda una única vez
-        if (!GrappingHook.HookedIntoAnObject && !AttachCameraBehaviour.getLookingCamera() && !Climb.isLerping && !pl.lerping)
+        if (!GrappingHook.HookedIntoAnObject && !AttachCameraBehaviour.getLookingCamera() && !Climb.isLerping && !pl.lerping && allowedToMove)
         {            
             speed = initialSpeed;
             if (controller.isGrounded)

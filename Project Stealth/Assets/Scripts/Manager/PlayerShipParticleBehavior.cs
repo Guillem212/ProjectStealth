@@ -13,11 +13,14 @@ public class PlayerShipParticleBehavior : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         if(other.gameObject.CompareTag("Player"))
-        {
+        {            
+            FindObjectOfType<AudioManager>().Play("jetStart");
+            FindObjectOfType<AudioManager>().ReduceMusicVolume(5f);
             forceParticles.SetFloat("bigOnes", 0.5f);
             forceParticles.SetFloat("smallOnes", 0.5f);
             areaLight1.SetActive(true);
             areaLight2.SetActive(true);
+            FindObjectOfType<PauseManager>().callEndCoroutine(); //lanza la pantalla final
         }
     }
 }

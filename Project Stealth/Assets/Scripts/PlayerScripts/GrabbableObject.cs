@@ -36,6 +36,7 @@ public class GrabbableObject : MonoBehaviour
 
     public void ToTheGround()
     {
+        FindObjectOfType<AudioManager>().Stop("forceField");
         grabScript.DeactivateParticles();
         forceParticles.SetFloat("Input", 0f);
         ArmsAnimatorBehabior.GrabObjects(0);

@@ -40,6 +40,7 @@ public class GrabObjects : MonoBehaviour
                 StartCoroutine("IsTrigger");
                 objectToGrab.transform.parent = Camera.main.transform;
                 ArmsAnimatorBehabior.GrabObjects(1);
+                FindObjectOfType<AudioManager>().Play("forceField");
             }
         }
 
@@ -48,6 +49,7 @@ public class GrabObjects : MonoBehaviour
             //print("cargando objeto");
             if (Input.GetButtonDown("ThrowObject")) //click alt -> lanzar
             {
+                FindObjectOfType<AudioManager>().Play("throwObject");
                 ArmsAnimatorBehabior.GrabObjects(2);
                 DeactivateParticles();
             }
