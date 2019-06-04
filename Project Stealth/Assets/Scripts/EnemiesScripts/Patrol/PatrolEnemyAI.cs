@@ -38,6 +38,7 @@ public class PatrolEnemyAI : MonoBehaviour
     private Image image;
 
     public Sprite imageStart;
+    public Sprite imageAttack;
 
     private Transform[] patrolPoints;
     public GameObject waypointEnemy;
@@ -69,6 +70,10 @@ public class PatrolEnemyAI : MonoBehaviour
         {
             spot.colorTemperature = 3000;
             StartCoroutine(goToPosition());
+            if (agent.remainingDistance <= 0)
+            {
+                enemyState = EnemyState.PATROL;
+            }
         }
         else if(enemyState == EnemyState.ATTACKING)
         {
@@ -76,7 +81,8 @@ public class PatrolEnemyAI : MonoBehaviour
             spot.colorTemperature = 1000;
             agent.stoppingDistance = 6;
             //shoot();
-         
+            image.sprite = imageAttack;
+
         }
         else
         {

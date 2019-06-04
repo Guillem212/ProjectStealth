@@ -26,8 +26,8 @@ public class TurretEnemyAI : MonoBehaviour
 
     private bool rotatingRight = true;
 
-    public GameObject leftShoot;
-    public GameObject rightShoot;
+    public ParticleSystem[] particles;
+    public bool isShooting = false;
 
     // Start is called before the first frame update
     void Start()
@@ -38,6 +38,8 @@ public class TurretEnemyAI : MonoBehaviour
 
         spot.colorTemperature = 20000;
         startRotation = transform.eulerAngles.y;
+
+        particles = GetComponentsInChildren<ParticleSystem>();
     }
 
     // Update is called once per frame
@@ -73,29 +75,19 @@ public class TurretEnemyAI : MonoBehaviour
     private void shoot()
     {
         transform.LookAt(playerPostion.transform.position);
-
         if (timer > 0)
         {
-            RaycastHit hit;
-            if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, Mathf.Infinity))
+            if (!isShooting)
             {
-                if (hit.collider.CompareTag("Player"))
-                {
-                    playerAtt.life.TrySpendLife(0.5f);
-
-                }
+                StartCoroutine(shootReal());
+                isShooting = true;
             }
-
-            rightShoot.SetActive(true);
-            leftShoot.SetActive(true);
 
             timer -= Time.deltaTime;
         }
         else
         {
             timer = 0.5f;
-            rightShoot.SetActive(false);
-            leftShoot.SetActive(false);
         }
     }
 
@@ -107,6 +99,17 @@ public class TurretEnemyAI : MonoBehaviour
     public void setEnemyState(EnemyState state)
     {
         enemyState = state;
+    }
+
+    IEnumerator shootReal()
+    {
+        yield return new WaitForSeconds(1f);
+        for (int i = 0; i < particles.Length; i++)
+        {
+            particles[i].Play();
+        }
+        playerAtt.life.TrySpendLife(1f);
+        isShooting = false;
     }
 
 }

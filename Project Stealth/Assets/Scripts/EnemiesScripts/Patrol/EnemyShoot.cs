@@ -11,13 +11,15 @@ public class EnemyShoot : MonoBehaviour
 
     private float timer = 0.5f;
 
-    public GameObject leftShoot;
-    public GameObject rightShoot;
+    public ParticleSystem[] particles;
+    public bool isShooting = false;
 
     // Start is called before the first frame update
     void Start()
     {
         patrolAI = GetComponent<PatrolEnemyAI>();
+
+        particles = GetComponentsInChildren<ParticleSystem>();
     }
 
     // Update is called once per frame
@@ -28,40 +30,37 @@ public class EnemyShoot : MonoBehaviour
 
     private void shoot()
     {
-        if((patrolAI.agent.remainingDistance <= patrolAI.agent.stoppingDistance || !patrolAI.agent.hasPath)
+        if ((patrolAI.agent.remainingDistance <= patrolAI.agent.stoppingDistance || !patrolAI.agent.hasPath)
             && patrolAI.getEnemyState() == EnemyState.ATTACKING)
         {
             transform.LookAt(patrolAI.playerPostion.transform.position);
 
             if (timer > 0)
             {
-                RaycastHit hit;
-                if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, Mathf.Infinity))
+                if (!isShooting)
                 {
-                    if (hit.collider.CompareTag("Player"))
-                    {
-                        Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * 1000, Color.red);
-                        playerAtt.life.TrySpendLife(0.5f);
-
-                    }
-                    else
-                        Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * 1000, Color.yellow);
+                    StartCoroutine(shootReal());
+                    isShooting = true;
                 }
-
-                rightShoot.SetActive(true);
-                leftShoot.SetActive(true);
-
 
                 timer -= Time.deltaTime;
             }
             else
             {
-
-                rightShoot.SetActive(false);
-                leftShoot.SetActive(false);
-                timer = .1f;
+                timer = 0.5f;
             }
+
         }
-        
+    }
+
+    IEnumerator shootReal()
+    {
+        yield return new WaitForSeconds(1f);
+        for (int i = 0; i < particles.Length; i++)
+        {
+            particles[i].Play();
+        }
+        playerAtt.life.TrySpendLife(1f);
+        isShooting = false;
     }
 }

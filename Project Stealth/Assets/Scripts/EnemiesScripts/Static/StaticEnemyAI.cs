@@ -29,7 +29,8 @@ public class StaticEnemyAI : MonoBehaviour
     
     private Image image;
 
-    public Sprite imageStart;
+    public Sprite imageSearch;
+    public Sprite imageAttack;
 
     private int actualPoint = 0;
 
@@ -59,14 +60,20 @@ public class StaticEnemyAI : MonoBehaviour
         {
             spot.colorTemperature = 3000;
             StartCoroutine(goToPosition());
+
+            if(agent.remainingDistance <= 0)
+            {
+                enemyState = EnemyState.PATROL;
+            }
         }
         else if(enemyState == EnemyState.ATTACKING)
         {
             agent.SetDestination(playerPostion.transform.position);
             spot.colorTemperature = 1000;
             agent.stoppingDistance = 6;
+            image.sprite = imageAttack;
             //shoot();
-         
+
         }
         else
         {
@@ -76,7 +83,8 @@ public class StaticEnemyAI : MonoBehaviour
 
     IEnumerator goToPosition()
     {
-        image.sprite = imageStart;
+        image.CrossFadeAlpha(1, 1, true);
+        image.sprite = imageSearch;
         yield return new WaitForSeconds(1f);
         agent.SetDestination(StealthBehaviour.lastpositionKnown);
     }
