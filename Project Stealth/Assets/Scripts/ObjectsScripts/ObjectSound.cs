@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿
 using UnityEngine;
 
 public class ObjectSound : MonoBehaviour
@@ -19,10 +18,8 @@ public class ObjectSound : MonoBehaviour
     {
         if (isThrowed)
         {
-            print("Hola");
             foreach (GameObject i in enemies)
             {
-                print("holita");
                 StaticEnemyAI.goToBottle = true;
                 StaticEnemyAI.bottle = gameObject;
                 i.GetComponent<StaticEnemyAI>().setEnemyState(EnemyState.SEARCHING);
