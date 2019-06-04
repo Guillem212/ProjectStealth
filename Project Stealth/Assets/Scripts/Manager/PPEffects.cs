@@ -18,9 +18,7 @@ public class PPEffects : MonoBehaviour
     AmbientOcclusion ambientOcclusionLayer = null;
     Vignette vignetteLayer = null;
     ColorGrading colorGradingLayer = null;
-    Bloom bloomLayer = null;
-
-    SettingsManager setting;    
+    Bloom bloomLayer = null;    
     
     bool vignetteState = false;
     bool hookingState = false;
@@ -30,8 +28,7 @@ public class PPEffects : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
-        volume = GetComponent<PostProcessVolume>();
-        setting = GameObject.Find("SoundAndSettingsManager").GetComponent<SettingsManager>();
+        volume = GetComponent<PostProcessVolume>();        
 
         volume.profile.TryGetSettings<AmbientOcclusion>(out ambientOcclusionLayer);
         volume.profile.TryGetSettings<Vignette>(out vignetteLayer);
@@ -42,9 +39,9 @@ public class PPEffects : MonoBehaviour
         volume.profile.TryGetSettings<ColorGrading>(out colorGradingLayer);
         volume.profile.TryGetSettings<Bloom>(out bloomLayer);
 
-        motionBlurLayer.enabled.value = setting.motionBlurSetting;
-        ambientOcclusionLayer.enabled.value = setting.ambientOclussionSetting;
-        bloomLayer.enabled.value = setting.bloomSetting;
+        motionBlurLayer.enabled.value = FindObjectOfType<SettingsManager>().motionBlurSetting;
+        ambientOcclusionLayer.enabled.value = FindObjectOfType<SettingsManager>().ambientOclussionSetting;
+        bloomLayer.enabled.value = FindObjectOfType<SettingsManager>().bloomSetting;
 
         chromaticAberrationLayer.enabled.value = true;
         vignetteLayer.enabled.value = false;

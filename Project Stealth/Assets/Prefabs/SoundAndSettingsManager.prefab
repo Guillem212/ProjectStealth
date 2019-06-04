@@ -74,7 +74,7 @@ MonoBehaviour:
     source: {fileID: 0}
   - name: forceField
     clip: {fileID: 8300000, guid: 3c3bf5dd01dbaf54c8818dce1cc95756, type: 3}
-    volume: 0.9
+    volume: 1
     pitch: 1
     loop: 0
     source: {fileID: 0}
@@ -129,12 +129,6 @@ MonoBehaviour:
   - name: r_detection
     clip: {fileID: 8300000, guid: da4cdd51951e3e2469b6dcbf7da2063d, type: 3}
     volume: 0.944
-    pitch: 1
-    loop: 0
-    source: {fileID: 0}
-  - name: detected
-    clip: {fileID: 8300000, guid: c1cb5c540a75a654b9f67d5d58d5ee9c, type: 3}
-    volume: 0.82
     pitch: 1
     loop: 0
     source: {fileID: 0}

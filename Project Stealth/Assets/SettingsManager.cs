@@ -4,25 +4,10 @@ using UnityEngine;
 
 public class SettingsManager : MonoBehaviour
 {
-    public bool bloomSetting;
-    public bool motionBlurSetting;
-    public bool ambientOclussionSetting;
-
-    //private GameObject instance;
-    // Start is called before the first frame update    
-
-    void Awake()
-    {
-        bloomSetting = true;
-        motionBlurSetting = true;
-        ambientOclussionSetting = true;
-            /*if(instance != null)
-            {
-                Destroy(this.gameObject);
-            }
-            DontDestroyOnLoad(this.gameObject);*/
-        }
-
+    public bool bloomSetting = true;
+    public bool motionBlurSetting = true;
+    public bool ambientOclussionSetting = true;
+    
     public void setBloom(bool value) { bloomSetting = value; }
     public void setMB(bool value) { motionBlurSetting = value; }
     public void setAO(bool value) { ambientOclussionSetting = value; }
