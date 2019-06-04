@@ -75,6 +75,7 @@ public class GrabObjects : MonoBehaviour
     public void ThrowThatWeirdStuff()
     {                
         objectToGrab.GetComponent<GrabbableObject>().Throw();
+        objectToGrab.GetComponent<ObjectSound>().isThrowed = true;
     }    
 
     public void DeactivateParticles()

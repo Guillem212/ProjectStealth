@@ -38,6 +38,9 @@ public class StaticEnemyAI : MonoBehaviour
 
     private bool enemyShooting = false;
 
+    public static bool goToBottle = false;
+    public static GameObject bottle;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -57,10 +60,19 @@ public class StaticEnemyAI : MonoBehaviour
     void Update()
     {
         if(enemyState == EnemyState.SEARCHING)
-        {            
-            spot.colorTemperature = 3000;
-            StartCoroutine(goToPosition());
+        {
 
+            if (goToBottle)
+            {
+                spot.colorTemperature = 3000;
+                StartCoroutine(goingToBottle());
+            }
+            else
+            {
+                spot.colorTemperature = 3000;
+                StartCoroutine(goToPosition());
+            }
+            
             if(agent.remainingDistance <= 0)
             {
                 enemyState = EnemyState.PATROL;
@@ -83,10 +95,16 @@ public class StaticEnemyAI : MonoBehaviour
 
     IEnumerator goToPosition()
     {
-        image.CrossFadeAlpha(1, 1, true);
         image.sprite = imageSearch;
         yield return new WaitForSeconds(1f);
         agent.SetDestination(StealthBehaviour.lastpositionKnown);
+    }
+
+    IEnumerator goingToBottle()
+    {
+        image.sprite = imageSearch;
+        yield return new WaitForSeconds(1f);
+        agent.SetDestination(bottle.transform.position);
     }
 
 }
