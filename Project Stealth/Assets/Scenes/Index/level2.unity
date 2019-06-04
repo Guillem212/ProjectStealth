@@ -39,7 +39,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.036858026, g: 0.020118441, b: 0.0060204733, a: 1}
+  m_IndirectSpecularColor: {r: 0.036858093, g: 0.020118393, b: 0.006020461, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1248,6 +1248,26 @@ Transform:
   m_Father: {fileID: 1012885959}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &215598875 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3697116486381782875, guid: cd2ca54bb11328b409006858003d9679,
+    type: 3}
+  m_PrefabInstance: {fileID: 1691034389}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &215598881
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 215598875}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b554ad80d5226dc4e911a937e18a5e93, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isThrowed: 0
+  enemies: []
 --- !u!1 &305674413 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6219929438418431186, guid: 6cc666b2f7665bd4fac733aecdd36d88,
@@ -7079,6 +7099,26 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 556852790}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1097933756 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6675539424810792126, guid: 6763987d77fbe3c4f8b8b13aec884819,
+    type: 3}
+  m_PrefabInstance: {fileID: 1730088893}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1097933762
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1097933756}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b554ad80d5226dc4e911a937e18a5e93, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isThrowed: 0
+  enemies: []
 --- !u!4 &1104279447 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8176282039262542108, guid: 63b3ea39656cf274e8358c6a5003c2b5,
@@ -7298,6 +7338,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Game
       objectReference: {fileID: 0}
+    - target: {fileID: 5855256489668241407, guid: cba9883e8c0d1c44db8c4e7958a20c7b,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 376829043347445806, guid: cba9883e8c0d1c44db8c4e7958a20c7b,
         type: 3}
       propertyPath: m_LocalPosition.z
@@ -7432,11 +7477,6 @@ PrefabInstance:
         type: 3}
       propertyPath: far clip plane
       value: 270
-      objectReference: {fileID: 0}
-    - target: {fileID: 5855256489668241407, guid: cba9883e8c0d1c44db8c4e7958a20c7b,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5855256489668241406, guid: cba9883e8c0d1c44db8c4e7958a20c7b,
         type: 3}
