@@ -1,0 +1,148 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &879515423331210602
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3251427323547084750}
+  - component: {fileID: 7201662642009330759}
+  - component: {fileID: 7201662642009330761}
+  m_Layer: 0
+  m_Name: SoundAndSettingsManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3251427323547084750
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 879515423331210602}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 18.711895, y: 8.344377, z: 151.11482}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7201662642009330759
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 879515423331210602}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb0fa206781397d4f8d1afbdd87e7c0d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bloomSetting: 0
+  motionBlurSetting: 0
+  ambientOclussionSetting: 0
+--- !u!114 &7201662642009330761
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 879515423331210602}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee484c69cb71ca34b82586eed4b81722, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sounds:
+  - name: soundTrack
+    clip: {fileID: 8300000, guid: c4f7481a72d87a1429b33c9c0a8bd8f8, type: 3}
+    volume: 0.799
+    pitch: 1
+    loop: 1
+    source: {fileID: 0}
+  - name: menuSelect
+    clip: {fileID: 8300000, guid: dbd07e1963cae6746b740bb6aaf59dcc, type: 3}
+    volume: 0.948
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: forceField
+    clip: {fileID: 8300000, guid: 3c3bf5dd01dbaf54c8818dce1cc95756, type: 3}
+    volume: 0.9
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: winch
+    clip: {fileID: 8300000, guid: 4c9939925ab5d5d418c8b84d04658815, type: 3}
+    volume: 0.563
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: throwHook
+    clip: {fileID: 8300000, guid: 0e8c5d37bc160a0448b726e1b10d287f, type: 3}
+    volume: 0.661
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: throwObject
+    clip: {fileID: 8300000, guid: 0f11b846d80e769408184319b0e91d07, type: 3}
+    volume: 0.276
+    pitch: 1.5
+    loop: 0
+    source: {fileID: 0}
+  - name: hookHit
+    clip: {fileID: 8300000, guid: 88c36cb5a35559e4bb2124fa3f1af68d, type: 3}
+    volume: 0.7
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: jetStart
+    clip: {fileID: 8300000, guid: 95db43b9bec8423438f8559b167c6d52, type: 3}
+    volume: 0.886
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: static
+    clip: {fileID: 8300000, guid: 3b231f590c8e899429638874877da792, type: 3}
+    volume: 0.82
+    pitch: 1
+    loop: 1
+    source: {fileID: 0}
+  - name: grab
+    clip: {fileID: 8300000, guid: 376f7cebb34c4484981c3a3f2cf6986e, type: 3}
+    volume: 0.82
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: r_suspicious
+    clip: {fileID: 8300000, guid: d302c0ba2858bb1498afd2bf9e3cee80, type: 3}
+    volume: 0.907
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: r_detection
+    clip: {fileID: 8300000, guid: da4cdd51951e3e2469b6dcbf7da2063d, type: 3}
+    volume: 0.944
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: detected
+    clip: {fileID: 8300000, guid: c1cb5c540a75a654b9f67d5d58d5ee9c, type: 3}
+    volume: 0.82
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: r_shoot
+    clip: {fileID: 8300000, guid: cbcf432f67a2f304d9d2a49138362825, type: 3}
+    volume: 0.82
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  audioMixerMaster: {fileID: 24300002, guid: 8c2925b816b40fa43a4e5dbd429778d5, type: 2}
+  audioMixer: {fileID: 24100000, guid: 8c2925b816b40fa43a4e5dbd429778d5, type: 2}

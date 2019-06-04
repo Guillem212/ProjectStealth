@@ -17,7 +17,7 @@ public class TriggerDetectionStatic : MonoBehaviour
             {
                 staticAI.enemyState = EnemyState.ATTACKING;
                 anim.SetTrigger("IsAttacking");
-
+                FindObjectOfType<AudioManager>().Play("r_detection");
             }
         }
     }

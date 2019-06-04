@@ -64,11 +64,10 @@ public class TurretEnemyAI : MonoBehaviour
             }
 
         }
-        else if(enemyState == EnemyState.ATTACKING)
+        else if(enemyState == EnemyState.ATTACKING && !PauseManager.gameIsFinished)
         {
             spot.colorTemperature = 1000;
             shoot();
-
         }
     }
 
@@ -104,6 +103,7 @@ public class TurretEnemyAI : MonoBehaviour
     IEnumerator shootReal()
     {
         yield return new WaitForSeconds(1f);
+        FindObjectOfType<AudioManager>().Play("r_shoot");
         for (int i = 0; i < particles.Length; i++)
         {
             particles[i].Play();

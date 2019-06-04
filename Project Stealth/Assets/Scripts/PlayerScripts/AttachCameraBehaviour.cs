@@ -91,6 +91,7 @@ public class AttachCameraBehaviour : MonoBehaviour
             Destroy(thisAttachableCamera);
             cameraFixed = false;
             lookingCamera = false;
+            FindObjectOfType<AudioManager>().Play("grab");
         }
     }
 

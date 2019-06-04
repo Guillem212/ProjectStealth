@@ -15,6 +15,7 @@ public class TriggerDetectionTurret : MonoBehaviour
         {
             if (turretAI.getEnemyState() != EnemyState.ATTACKING)
             {
+                FindObjectOfType<AudioManager>().Play("r_detection");
                 turretAI.setEnemyState(EnemyState.ATTACKING);
                 anim.SetTrigger("IsAttacking");
             }

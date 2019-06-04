@@ -57,7 +57,7 @@ public class StaticEnemyAI : MonoBehaviour
     void Update()
     {
         if(enemyState == EnemyState.SEARCHING)
-        {
+        {            
             spot.colorTemperature = 3000;
             StartCoroutine(goToPosition());
 

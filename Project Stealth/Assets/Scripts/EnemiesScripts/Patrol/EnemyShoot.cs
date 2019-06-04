@@ -31,7 +31,7 @@ public class EnemyShoot : MonoBehaviour
     private void shoot()
     {
         if ((patrolAI.agent.remainingDistance <= patrolAI.agent.stoppingDistance || !patrolAI.agent.hasPath)
-            && patrolAI.getEnemyState() == EnemyState.ATTACKING)
+            && patrolAI.getEnemyState() == EnemyState.ATTACKING && !PauseManager.gameIsFinished)
         {
             transform.LookAt(patrolAI.playerPostion.transform.position);
 
@@ -56,6 +56,7 @@ public class EnemyShoot : MonoBehaviour
     IEnumerator shootReal()
     {
         yield return new WaitForSeconds(1f);
+        FindObjectOfType<AudioManager>().Play("r_shoot");
         for (int i = 0; i < particles.Length; i++)
         {
             particles[i].Play();

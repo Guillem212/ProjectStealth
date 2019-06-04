@@ -55,22 +55,24 @@ public class StealthBehaviour : MonoBehaviour
     }
 
     private void OnTriggerEnter(Collider other)
-    {
+    {        
         if (other.CompareTag("Enemy"))
-        {
+        {            
             if (other.gameObject.GetComponent<PatrolEnemyAI>().getEnemyState() == EnemyState.PATROL)
             {
                 lastpositionKnown = transform.position;
                 other.gameObject.GetComponent<PatrolEnemyAI>().setEnemyState(EnemyState.SEARCHING);
+                FindObjectOfType<AudioManager>().Play("r_suspicious");
                 other.gameObject.GetComponent<PatrolEnemyAI>().agent.stoppingDistance = 2;
             }
         }
         else if (other.CompareTag("EnemyStatic"))
-        {
+        {            
             if (other.gameObject.GetComponent<StaticEnemyAI>().getEnemyState() == EnemyState.PATROL)
             {
                 lastpositionKnown = transform.position;
                 other.gameObject.GetComponent<StaticEnemyAI>().setEnemyState(EnemyState.SEARCHING);
+                FindObjectOfType<AudioManager>().Play("r_suspicious");
                 other.gameObject.GetComponent<StaticEnemyAI>().agent.stoppingDistance = 2;
             }
         }
